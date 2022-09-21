@@ -2,19 +2,24 @@
 require('dotenv').config();
 
 // Web server config
-const sassMiddleware = require('./lib/sass-middleware');
 const express = require('express');
-const morgan = require('morgan');
+const app = express();
+app.set('view engine', 'ejs');
+const sassMiddleware = require('./lib/sass-middleware');
+//const morgan = require('morgan');
+//app.use(morgan('dev'));
+const cookieSession = require('cookie-session');
+app.use(cookieSession({
+  name: 'session',
+  keys: ['userID']
+}));
 
 const PORT = process.env.PORT || 8080;
-const app = express();
 
-app.set('view engine', 'ejs');
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
-app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   '/styles',
@@ -44,8 +49,56 @@ app.use('/users', usersRoutes);
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 
+//homepage
 app.get('/', (req, res) => {
-  res.render('index');
+  const {userID} = req.session;
+  const templateVars = { user: users[userID] || undefined };
+  console.log('current user: ', users[userID])
+  //if (userID) {
+  //  return res.redirect('/');
+  //}
+  res.render('index', templateVars);
+});
+
+//go to register page
+app.get("/register", (req, res) => {
+  const {userID} = req.session;
+  const templateVars = { user: undefined };
+  //redirect if logged in
+  if (userID) {
+    return res.redirect('/');
+  }
+  res.render("register", templateVars);
+});
+
+//TEMPORARY STORE USER TO LOCAL VARIABLE
+
+class User {
+
+  constructor(id, email, password) {
+    this.id = id;
+    this.email = email;
+    this.password = password;
+  }
+
+}
+
+//temp user database REPLACE WITH SQL
+const users = {};
+
+//register new user
+app.post("/register", (req, res) => {
+  const { email, password } = req.body;
+  const newID = 'TESTUSER1'
+  users[newID] = new User(newID, email, password);
+  req.session.userID = newID;
+  res.redirect(`/`);
+});
+
+//logout
+app.post("/logout", (req, res) => {
+  req.session = null;
+  res.redirect('/');
 });
 
 app.listen(PORT, () => {
