@@ -2,20 +2,19 @@
 require('dotenv').config();
 
 // Web server config
+const PORT = process.env.PORT || 8080;
 const express = require('express');
 const app = express();
 app.set('view engine', 'ejs');
 const sassMiddleware = require('./lib/sass-middleware');
 //const morgan = require('morgan');
 //app.use(morgan('dev'));
+const bcrypt = require("bcryptjs");
 const cookieSession = require('cookie-session');
 app.use(cookieSession({
   name: 'session',
   keys: ['userID']
 }));
-
-const PORT = process.env.PORT || 8080;
-
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -53,7 +52,7 @@ app.use('/users', usersRoutes);
 app.get('/', (req, res) => {
   const {userID} = req.session;
   const templateVars = { user: users[userID] || undefined };
-  console.log('current user: ', users[userID])
+  console.log('logged in as: ', users[userID])
   //if (userID) {
   //  return res.redirect('/');
   //}
@@ -90,7 +89,8 @@ const users = {};
 app.post("/register", (req, res) => {
   const { email, password } = req.body;
   const newID = 'TESTUSER1'
-  users[newID] = new User(newID, email, password);
+  const hashedPassword = bcrypt.hashSync(password, 10);
+  users[newID] = new User(newID, email, hashedPassword);
   req.session.userID = newID;
   res.redirect(`/`);
 });
