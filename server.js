@@ -114,8 +114,9 @@ app.get("/register", (req, res) => {
 
 class User {
 
-  constructor(id, email, password) {
+  constructor(id, name, email, password) {
     this.id = id;
+    this.name = name;
     this.email = email;
     this.password = password;
   }
@@ -127,10 +128,17 @@ const users = {};
 
 //register new user
 app.post("/register", (req, res) => {
-  const { email, password } = req.body;
+  const { name, email, password, password2 } = req.body;
   const newID = 'TESTUSER1'
   const hashedPassword = bcrypt.hashSync(password, 10);
-  users[newID] = new User(newID, email, hashedPassword);
+
+  //password check, REPLACE WITH AJAX form validation
+  if (password !== password2) {
+    res.statusCode = 403;
+    return res.send("Passwords do not match. Please try again.");
+  }
+
+  users[newID] = new User(newID, name, email, hashedPassword);
   req.session.userID = newID;
   res.redirect(`/`);
 });

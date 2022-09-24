@@ -23,9 +23,21 @@
       <div class="card-body">
         <h2 class="card-title" style="margin: auto"><b>Create Account</b></h2>
       </div>
-      <div class="card text-center">
+      <div class="card text-center" style="width: 100%">
         <div class="card-body">
           <form method="POST" action="/register" style="margin: auto; width: 400px">
+            <div class="form-group row">
+              <label class="col-form-label" style="margin: auto">Name</label>
+              <div class="col-sm-10">
+                <input
+                class="form-control"
+                type="name"
+                name="name"
+                placeholder="example@example.com"
+                style="width: 300px"
+                />
+              </div>
+            </div>
             <div class="form-group row">
               <label class="col-form-label" style="margin: auto">Email</label>
               <div class="col-sm-10">
@@ -46,6 +58,18 @@
                 type="password"
                 name="password"
                 placeholder="password"
+                style="width: 300px"
+                />
+              </div>
+            </div>
+            <div class="form-group row" style="margin-top: 10px">
+              <label class="col-form-label" style="margin: auto">Re-enter password</label>
+              <div class="col-sm-10">
+                <input
+                class="form-control"
+                type="password"
+                name="password2"
+                placeholder="re-enter password"
                 style="width: 300px"
                 />
               </div>
