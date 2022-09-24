@@ -1,4 +1,4 @@
--- Users table seeds here (Example)
+-- Listings table seeds here
 INSERT INTO listings (title, description, price, owner_id)
 VALUES ('Tommy Truck', 'Its a big red truck!', 5000000, 1);
 INSERT INTO listings (title, description, price, owner_id)
