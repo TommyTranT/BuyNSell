@@ -1,4 +1,4 @@
--- Drop and recreate Users table (Example)
+-- Drop and recreate Messages table
 
 DROP TABLE IF EXISTS messages CASCADE;
 CREATE TABLE messages (
