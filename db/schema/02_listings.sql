@@ -1,0 +1,12 @@
+-- Drop and recreate Listings table
+
+DROP TABLE IF EXISTS listings CASCADE;
+CREATE TABLE listings (
+  id SERIAL PRIMARY KEY NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  description VARCHAR(510) NOT NULL,
+  price INTEGER NOT NULL DEFAULT 0,
+  is_sold BOOLEAN NOT NULL DEFAULT FALSE,
+  is_removed BOOLEAN NOT NULL DEFAULT FALSE
+  owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+);
