@@ -59,6 +59,46 @@ app.get('/', (req, res) => {
   res.render('index', templateVars);
 });
 
+//go to login page
+app.get("/login", (req, res) => {
+  const {userID} = req.session;
+  const templateVars = { user: undefined };
+  if (userID) {
+    return res.redirect('/');
+  }
+  res.render("login", templateVars);
+});
+
+//login
+app.post("/login", (req, res) => {
+
+  //TEMPORARY helper function, replace with pool.query with conditionals
+  const userLookupByEmail = function(database, email) {
+    for (let user in database) {
+      if (database[user].email === email) {
+        return user;
+      }
+    }
+    return null;
+  };
+
+  const { email, password } = req.body;
+  const checkUser = userLookupByEmail(users, email);
+//password check REPLACE with AJAX form validation
+  if (!bcrypt.compareSync(password, users[checkUser].password)) {
+    res.statusCode = 403;
+    res.send("Password does not match for his email address.");
+  }
+  req.session.userID = checkUser;
+  res.redirect('/');
+});
+
+//logout
+app.post("/logout", (req, res) => {
+  req.session = null;
+  res.redirect('/');
+});
+
 //go to register page
 app.get("/register", (req, res) => {
   const {userID} = req.session;
@@ -93,12 +133,6 @@ app.post("/register", (req, res) => {
   users[newID] = new User(newID, email, hashedPassword);
   req.session.userID = newID;
   res.redirect(`/`);
-});
-
-//logout
-app.post("/logout", (req, res) => {
-  req.session = null;
-  res.redirect('/');
 });
 
 app.listen(PORT, () => {
