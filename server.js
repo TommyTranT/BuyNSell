@@ -2,20 +2,19 @@
 require('dotenv').config();
 
 // Web server config
+const PORT = process.env.PORT || 8080;
 const express = require('express');
 const app = express();
 app.set('view engine', 'ejs');
 const sassMiddleware = require('./lib/sass-middleware');
 //const morgan = require('morgan');
 //app.use(morgan('dev'));
+const bcrypt = require("bcryptjs");
 const cookieSession = require('cookie-session');
 app.use(cookieSession({
   name: 'session',
   keys: ['userID']
 }));
-
-const PORT = process.env.PORT || 8080;
-
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -45,6 +44,9 @@ app.use('/api/widgets', widgetApiRoutes);
 app.use('/users', usersRoutes);
 // Note: mount other resources here, using the same pattern above
 
+// TEMP database for Listings
+const listings = {};
+
 // Home page
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
@@ -53,11 +55,51 @@ app.use('/users', usersRoutes);
 app.get('/', (req, res) => {
   const {userID} = req.session;
   const templateVars = { user: users[userID] || undefined };
-  console.log('current user: ', users[userID])
+  console.log('logged in as: ', users[userID])
   //if (userID) {
   //  return res.redirect('/');
   //}
   res.render('index', templateVars);
+});
+
+//go to login page
+app.get("/login", (req, res) => {
+  const {userID} = req.session;
+  const templateVars = { user: undefined };
+  if (userID) {
+    return res.redirect('/');
+  }
+  res.render("login", templateVars);
+});
+
+//login
+app.post("/login", (req, res) => {
+
+  //TEMPORARY helper function, replace with pool.query with conditionals
+  const userLookupByEmail = function(database, email) {
+    for (let user in database) {
+      if (database[user].email === email) {
+        return user;
+      }
+    }
+    return null;
+  };
+
+  const { email, password } = req.body;
+  const checkUser = userLookupByEmail(users, email);
+//password check REPLACE with AJAX form validation
+  if (!bcrypt.compareSync(password, users[checkUser].password)) {
+    res.statusCode = 403;
+    res.send("Password does not match for his email address.");
+  }
+  req.session.userID = checkUser;
+  res.redirect('/');
+});
+
+//logout
+app.post("/logout", (req, res) => {
+  req.session = null;
+  res.redirect('/');
 });
 
 //go to register page
@@ -75,8 +117,9 @@ app.get("/register", (req, res) => {
 
 class User {
 
-  constructor(id, email, password) {
+  constructor(id, name, email, password) {
     this.id = id;
+    this.name = name;
     this.email = email;
     this.password = password;
   }
@@ -88,18 +131,36 @@ const users = {};
 
 //register new user
 app.post("/register", (req, res) => {
-  const { email, password } = req.body;
+  const { name, email, password, password2 } = req.body;
   const newID = 'TESTUSER1'
-  users[newID] = new User(newID, email, password);
+  const hashedPassword = bcrypt.hashSync(password, 10);
+
+  //password check, REPLACE WITH AJAX form validation
+  if (password !== password2) {
+    res.statusCode = 403;
+    return res.send("Passwords do not match. Please try again.");
+  }
+
+  users[newID] = new User(newID, name, email, hashedPassword);
   req.session.userID = newID;
   res.redirect(`/`);
 });
 
-//logout
-app.post("/logout", (req, res) => {
-  req.session = null;
-  res.redirect('/');
+// Create new listing page
+app.get("/new_listing", (req, res) => {
+  const {userID} = req.session;
+  const templateVars = { user: users[userID] || undefined };
+  console.log('logged in as: ', users[userID])
+
+  // Checks if user is logged in
+  if (!userID) {
+    res.statusCode = 404;
+    return res.send("Please Log in to create new listing.");
+  }
+
+  res.render("new_listing", templateVars);
 });
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
