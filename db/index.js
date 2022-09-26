@@ -102,12 +102,14 @@ const login = function(email, password) {
   console.log(`fn login called`);
   return getUserWithEmail(email)
   .then(user => {
-    console.log(`login resolved, user retrieved:`, user);
-    if (bcrypt.compareSync(password, user.password)) {
-      console.log(`password matches`);
-      return Promise.resolve(user);
+    if (user) {
+      console.log(`login resolved, user retrieved:`, user);
+      if (bcrypt.compareSync(password, user.password)) {
+        console.log(`password matches`);
+        return Promise.resolve(user);
+      }
     }
-    console.log(`password doesn't match`);
+    console.log(`password doesn't match/user doesn't exist`);
     return null;
     });
 }
