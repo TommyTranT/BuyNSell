@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Create Listing</title>
+  <title>My Listings</title>
 
   <meta charset="UTF-8" >
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
@@ -16,6 +16,11 @@
       crossorigin="anonymous"
     />
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
   <link rel="stylesheet" href="/vendor/border-box.css" />
   <link rel="stylesheet" href="/styles/main.css" />
@@ -28,20 +33,29 @@
 <body>
   <%- include('partials/_navbar') %>
   <main>
-    <h1>Post an AD</h1>
-      <form action="/listings" method="POST">
-        <h2>Title</h2>
-        <input name="name" type="text" />
-        <h2>Description</h2>
-        <textarea name="description" rows="8" col="70"></textarea>
+    <h1>My Listings</h1>
+    <% for (const listingKeys in listings) {%>
+    <container>
+      <div>
+        <h2><%= listings[listingKeys].name %></h2>
+        <text><%= listings[listingKeys].description %></text>
+      </div>
 
-        <div>
-          <h2>Price</h2>
-          <input name="price" type="number" />
-        </div>
-        <button type="sumbit">Post Ad</button>
+      <form>
+        <h2>$<%= listings[listingKeys].price %></h2>
+        <button type="submit">Edit</button>
+        <button type="submit">Delete</button>
       </form>
+
+      <div>
+        <h2>02/22/2022</h2>
+        <!-- If sold, display SOLD -->
+      </div>
+    </container>
+    <br />
+    <% } %>
   </main>
+
 
   <!-- Bootstrap JS -->
   <script

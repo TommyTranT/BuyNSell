@@ -47,6 +47,12 @@ app.use('/users', usersRoutes);
 // TEMP database for Listings
 const listings = {};
 
+// Generates a random ID
+const generateRandomString = () => {
+  let result = (Math.random() + 1).toString(36).substring(6);
+  return result;
+}
+
 // Home page
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
@@ -132,7 +138,7 @@ const users = {};
 //register new user
 app.post("/register", (req, res) => {
   const { name, email, password, password2 } = req.body;
-  const newID = 'TESTUSER1'
+  const newID = generateRandomString();
   const hashedPassword = bcrypt.hashSync(password, 10);
 
   //password check, REPLACE WITH AJAX form validation
@@ -146,7 +152,8 @@ app.post("/register", (req, res) => {
   res.redirect(`/`);
 });
 
-// Create new listing page
+
+// GET - go to create new listings page
 app.get("/new_listing", (req, res) => {
   const {userID} = req.session;
   const templateVars = { user: users[userID] || undefined };
@@ -161,6 +168,59 @@ app.get("/new_listing", (req, res) => {
   res.render("new_listing", templateVars);
 });
 
+// POST - Take input from create listings page and input data into Obj
+app.post('/listings', (req, res) => {
+  const {userID} = req.session;
+  const templateVars = { user: users[userID] || undefined };
+  const ownerId = users[userID].id;
+  const ownerName = users[userID].name;
+  console.log('logged in as: ', users[userID])
+
+  let id = generateRandomString();
+  listings[id] = {};
+  listings[id].name = req.body.name;
+  listings[id].description = req.body.description;
+  listings[id].price = req.body.price;
+  listings[id].is_sold = false;
+  listings[id].owner_id = ownerId;
+  listings[id].owner_name = ownerName;
+  listings[id].is_removed = false;
+
+  console.log(`Listings database`, listings);
+
+  res.redirect(`/listings`)
+  // res.redirect(`/listings/${id}`)
+})
+
+// GET - View all of your listings
+app.get('/listings', (req, res) => {
+  const {userID} = req.session;
+
+  const templateVars = {
+    user: users[userID] || undefined,
+    listings: listings
+  };
+
+  res.render('listings', templateVars)
+})
+
+// GET - Show individual listings
+app.get('/listings/:id', (req, res) => {
+  const {userID} = req.session;
+  console.log('logged in as: ', users[userID])
+
+  const id = req.params.id;
+
+  const templateVars = {
+    user: users[userID] || undefined,
+    name: listings[req.params.id].name,
+    price: listings[req.params.id].price,
+    description: listings[req.params.id].description,
+    owner_name: listings[req.params.id].owner_name,
+  };
+
+  res.render('single_listing', templateVars)
+})
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
