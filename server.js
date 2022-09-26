@@ -16,7 +16,10 @@ const bcrypt = require("bcryptjs");
 const cookieSession = require('cookie-session');
 app.use(cookieSession({
   name: 'session',
-  keys: ['userID']
+  keys: ['userID'],
+
+  // Cookie Options
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
@@ -131,29 +134,27 @@ const users = {};
 
 //register new user
 app.post("/register", (req, res) => {
-  console.log('post to register'); // tester REMOVE
   const user = req.body;
+
   //password check, REPLACE WITH AJAX form validation
   if (user.password !== user.password2) {
     res.statusCode = 403;
     return res.send("Passwords do not match. Please try again.");
   }
-  console.log('pw check passed'); // tester REMOVE
   user.password = bcrypt.hashSync(user.password, 12);
 
+  // call helper function from db/index.js
   databaseFn.registerNewUser(user)
   .then(user => {
-    console.log('cb on db fn called'); // tester REMOVE
     if (!user) {
       res.send({error: 'error'});
       return;
     }
-    req.session.userId = user.id;
-    res.send("🤗");
+    req.session.userID = user.id;
+    res.redirect(`/`);
   })
-  .catch(e => res.send(e));
+  // .catch(e => res.send(e));
 
-  res.redirect(`/`);
 });
 
 app.listen(PORT, () => {

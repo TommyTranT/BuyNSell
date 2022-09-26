@@ -25,6 +25,7 @@ const registerNewUser = function(user) {
     )
     .then((result) => {
       if (result.rows[0]) {
+        console.log(`this is result rows`, result.rows); // tester remove
         return Promise.resolve(result.rows[0]);
       } else {
         return null;
