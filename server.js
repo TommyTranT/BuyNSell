@@ -192,15 +192,25 @@ app.post('/listings', (req, res) => {
   // res.redirect(`/listings/${id}`)
 })
 
-// GET - View all of your listings
+// GET - View all listings IF you are the owner
 app.get('/listings', (req, res) => {
   const {userID} = req.session;
 
+  let filteredDatabase = {}
+  for(let keys in listings) {
+    let value = listings[keys]
+    if(value.owner_id === users[userID].id || value.userID === null) { // -> should filter the url from the users Id
+      filteredDatabase[keys] = value;
+    }
+  }
+
   const templateVars = {
     user: users[userID] || undefined,
-    listings: listings
+    listings: filteredDatabase
+    // listings: listings
   };
 
+  console.log('filtered db', filteredDatabase)
   res.render('listings', templateVars)
 })
 
