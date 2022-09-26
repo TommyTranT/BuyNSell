@@ -41,6 +41,7 @@ app.use(express.static('public'));
 const userApiRoutes = require('./routes/users-api');
 const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
+const { database } = require('pg/lib/defaults.js');
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -63,14 +64,23 @@ const generateRandomString = () => {
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 
-//homepage
+// homepage
 app.get('/', (req, res) => {
   const {userID} = req.session;
-  const templateVars = { user: users[userID] || undefined };
-  console.log('logged in as: ', users[userID])
-  //if (userID) {
-  //  return res.redirect('/');
-  //}
+  const templateVars = {user: undefined};
+  if (userID) {
+    return databaseFn.getUserWithId(userID)
+    .then(dbUser => {
+      console.log(`returned user from Id:`, dbUser);
+      templateVars.user = dbUser;
+      console.log('logged in successfully as: ', dbUser.name)
+      return res.render('index', templateVars);
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
+  }
   res.render('index', templateVars);
 });
 
@@ -84,28 +94,33 @@ app.get("/login", (req, res) => {
   res.render("login", templateVars);
 });
 
-//login
+// POST - login
 app.post("/login", (req, res) => {
 
-  //TEMPORARY helper function, replace with pool.query with conditionals
-  const userLookupByEmail = function(database, email) {
-    for (let user in database) {
-      if (database[user].email === email) {
-        return user;
-      }
-    }
-    return null;
-  };
+  const {email, password} = req.body;
+  console.log(`taken email ${email} and ${password} from req.body`);
 
-  const { email, password } = req.body;
-  const checkUser = userLookupByEmail(users, email);
+  // call login function from index.js
+  databaseFn.login(email, password)
+    .then(user => {
+      if (!user) {
+        res.send({error: "error"});
+        return;
+      }
+      req.session.userID = user.id;
+      res.redirect('/');
+    })
+    .catch(e => {
+      console.log(e);
+      // res.send(e)}
+    });
+
 //password check REPLACE with AJAX form validation
-  if (!bcrypt.compareSync(password, users[checkUser].password)) {
-    res.statusCode = 403;
-    res.send("Password does not match for his email address.");
-  }
-  req.session.userID = checkUser;
-  res.redirect('/');
+  // if (!bcrypt.compareSync(password, users[checkUser].password)) {
+  //   res.statusCode = 403;
+  //   res.send("Password does not match for this email address.");
+  // }
+  // req.session.userID = checkUser;
 });
 
 //logout
@@ -125,23 +140,7 @@ app.get("/register", (req, res) => {
   res.render("register", templateVars);
 });
 
-//TEMPORARY STORE USER TO LOCAL VARIABLE
-
-class User {
-
-  constructor(id, name, email, password) {
-    this.id = id;
-    this.name = name;
-    this.email = email;
-    this.password = password;
-  }
-
-}
-
-//temp user database REPLACE WITH SQL
-const users = {};
-
-//register new user
+// POST - register new user
 app.post("/register", (req, res) => {
   const user = req.body;
 
@@ -165,7 +164,6 @@ app.post("/register", (req, res) => {
   // .catch(e => res.send(e));
 
 });
-
 
 // GET - go to create new listings page
 app.get("/new_listing", (req, res) => {
