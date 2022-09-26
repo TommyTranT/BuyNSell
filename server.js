@@ -66,6 +66,18 @@ const generateRandomString = () => {
 
 // homepage
 app.get('/', (req, res) => {
+
+  /* ONLY USE THIS BLOCK FOR RENDERS WHERE THE USER IS LOGGED IN
+  This block is currently required by every page that uses the navbar, and is
+  used to render the view with the correct templateVars.user value.
+
+  This is required by the navbar partial.
+
+  It checks to see if the cookie matches a user in the db, then injects the
+  matched user into the EJS view & partials.
+
+  On line 89, change the first param of .render to the view you want to render.
+  */
   const {userID} = req.session;
   const templateVars = {user: undefined};
   if (userID) {
@@ -81,6 +93,8 @@ app.get('/', (req, res) => {
       res.send(e);
     })
   }
+  /* end of required block */
+
   res.render('index', templateVars);
 });
 
@@ -112,15 +126,8 @@ app.post("/login", (req, res) => {
     })
     .catch(e => {
       console.log(e);
-      // res.send(e)}
     });
 
-//password check REPLACE with AJAX form validation
-  // if (!bcrypt.compareSync(password, users[checkUser].password)) {
-  //   res.statusCode = 403;
-  //   res.send("Password does not match for this email address.");
-  // }
-  // req.session.userID = checkUser;
 });
 
 //logout
@@ -167,9 +174,25 @@ app.post("/register", (req, res) => {
 
 // GET - go to create new listings page
 app.get("/new_listing", (req, res) => {
+
+  // req. logged in path block
   const {userID} = req.session;
-  const templateVars = { user: users[userID] || undefined };
-  console.log('logged in as: ', users[userID])
+  const templateVars = {user: undefined};
+
+  if (userID) {
+    return databaseFn.getUserWithId(userID)
+    .then(dbUser => {
+      console.log(`returned user from Id:`, dbUser);
+      templateVars.user = dbUser;
+      console.log('logged in successfully as: ', dbUser.name)
+      return res.render('new_listing', templateVars);
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
+  }
+  // end of req. logged in path block
 
   // Checks if user is logged in
   if (!userID) {
