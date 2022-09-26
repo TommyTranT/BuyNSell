@@ -1,0 +1,30 @@
+<header id="nav-header">
+  <nav>
+    <div>
+      <span class="logo">
+        <a href="/">BUYnSELL</a>
+      </span>
+      <span class="links">
+        <a href="/">Favorites</a>
+        <a href="/">My Listings</a>
+        <a href="/">Messages</a>
+        <a href="/">New Listing</a>
+      </span>
+    </div>
+
+    <% if (user) { %>
+    <form method="POST" action="/logout">
+      <button type="submit">Logout</button>
+    </form>
+    <% } else { %>
+    <div>
+      <form method="GET" action="/login">
+        <button type="submit">Login</button>
+      </form>
+      <form method="GET" action="/register">
+        <button type="submit">Register</button>
+      </form>
+    </div>
+    <% } %>
+  </nav>
+</header>

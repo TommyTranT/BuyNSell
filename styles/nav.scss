@@ -1,0 +1,67 @@
+@use 'main';
+
+#nav-header {
+  width: 100%;
+  color: white;
+}
+
+nav {
+  display: flex;
+  height: 100px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: main.$primary-color;
+  padding: 2em;
+  color: inherit;
+
+  .logo {
+    font-size: 2.5em;
+  }
+
+  .links {
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+  }
+
+  div {
+    display: flex;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    padding: 0px 10px;
+    height: 2em;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  a:hover {
+    opacity: 0.8;
+  }
+
+  a:active {
+    opacity: 0.5;
+  }
+
+  button {
+    padding: .7em .9em;
+    margin: 7px;
+    background-color: main.$accent-color;
+    border: none;
+    border-radius: 2px;
+    font-size: 1.1em;
+    transition: opacity .1s;
+  }
+
+  button:hover {
+    opacity: 0.8;
+  }
+
+  button:active {
+    opacity: 0.5;
+  }
+
+
+}

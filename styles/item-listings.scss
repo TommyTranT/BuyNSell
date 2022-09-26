@@ -1,0 +1,49 @@
+@use 'main';
+
+.main-container {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  padding: .5em;
+}
+
+.item-listing {
+  padding: .5em;
+  border: solid;
+  margin: .5em;
+  width: 250px;
+  height: 400px;
+
+  .item-photo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+    border: solid;
+  }
+
+  header {
+    display: flex;
+    justify-content: center;
+  }
+
+  article {
+    height: 25%;
+    border: solid;
+    margin: .25em 0;
+    font-size: 0.7em;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    font-style: italic;
+  }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .item-date {
+    font-size: 0.5em;
+  }
+}

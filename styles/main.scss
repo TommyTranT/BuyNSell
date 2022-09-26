@@ -1,0 +1,17 @@
+$background-color: rgb(228, 228, 228);
+$primary-color: rgb(0, 30, 58);
+$accent-color: rgb(170, 170, 170);
+$default-font: 'Roboto Condensed', sans-serif;
+$text-color: black;
+
+body {
+  background: $background-color;
+  font-family: $default-font;
+  color: $text-color;
+}
+
+main {
+  width: 90%;
+  margin: 0 auto;
+  font-size: 2em;
+}
