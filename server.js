@@ -66,6 +66,18 @@ const generateRandomString = () => {
 
 // homepage
 app.get('/', (req, res) => {
+
+  /* ONLY USE THIS BLOCK FOR RENDERS WHERE THE USER IS LOGGED IN
+  This block is currently required by every page that uses the navbar, and is
+  used to render the view with the correct templateVars.user value.
+
+  This is required by the navbar partial.
+
+  It checks to see if the cookie matches a user in the db, then injects the
+  matched user into the EJS view & partials.
+
+  On line with return render, change the first param of .render to the view you want to render.
+  */
   const {userID} = req.session;
   const templateVars = {user: undefined};
   if (userID) {
@@ -73,6 +85,9 @@ app.get('/', (req, res) => {
     .then(dbUser => {
       console.log(`returned user from Id:`, dbUser);
       templateVars.user = dbUser;
+
+      // route logic here
+
       console.log('logged in successfully as: ', dbUser.name)
       return res.render('index', templateVars);
     })
@@ -81,6 +96,8 @@ app.get('/', (req, res) => {
       res.send(e);
     })
   }
+  /* end of required block */
+
   res.render('index', templateVars);
 });
 
@@ -112,15 +129,8 @@ app.post("/login", (req, res) => {
     })
     .catch(e => {
       console.log(e);
-      // res.send(e)}
     });
 
-//password check REPLACE with AJAX form validation
-  // if (!bcrypt.compareSync(password, users[checkUser].password)) {
-  //   res.statusCode = 403;
-  //   res.send("Password does not match for this email address.");
-  // }
-  // req.session.userID = checkUser;
 });
 
 //logout
@@ -167,8 +177,25 @@ app.post("/register", (req, res) => {
 
 // GET - go to create new listings page
 app.get("/new_listing", (req, res) => {
+
+  // req. logged in path block
   const {userID} = req.session;
-  const templateVars = { user: undefined };
+  const templateVars = {user: undefined};
+
+  if (userID) {
+    return databaseFn.getUserWithId(userID)
+    .then(dbUser => {
+      console.log(`returned user from Id:`, dbUser);
+      templateVars.user = dbUser;
+      console.log('logged in successfully as: ', dbUser.name)
+      return res.render('new_listing', templateVars);
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
+  }
+  // end of req. logged in path block
 
   // Checks if user is logged in
   if (!userID) {
@@ -179,25 +206,44 @@ app.get("/new_listing", (req, res) => {
   res.render("new_listing", templateVars);
 });
 
+
 // POST - Take input from create listings page and input data into Obj
 app.post('/listings', (req, res) => {
+
+  // req. logged in path block
   const {userID} = req.session;
-  const templateVars = { user: users[userID] || undefined };
-  const ownerId = users[userID].id;
-  const ownerName = users[userID].name;
-  console.log('logged in as: ', users[userID])
 
-  let id = generateRandomString();
-  listings[id] = {};
-  listings[id].name = req.body.name;
-  listings[id].description = req.body.description;
-  listings[id].price = req.body.price;
-  listings[id].is_sold = false;
-  listings[id].owner_id = ownerId;
-  listings[id].owner_name = ownerName;
-  listings[id].is_removed = false;
+  if (userID) {
+    return databaseFn.getUserWithId(userID)
+    .then(dbUser => {
+      console.log(`returned user from Id:`, dbUser);
 
-  console.log(`Listings database`, listings);
+      // tommy's route logic
+      const ownerId = dbUser.id;
+      const ownerName = dbUser.name;
+
+      let id = generateRandomString();
+      listings[id] = {};
+      listings[id].name = req.body.name;
+      listings[id].description = req.body.description;
+      listings[id].price = req.body.price;
+      listings[id].is_sold = false;
+      listings[id].owner_id = ownerId;
+      listings[id].owner_name = ownerName;
+      listings[id].is_removed = false;
+
+      console.log(`Listings database`, listings);
+
+      console.log('logged in successfully as: ', dbUser.name)
+      return res.redirect('listings');
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
+  }
+  // end of req. logged in path block
+
 
   res.redirect(`/listings`)
   // res.redirect(`/listings/${id}`)
@@ -205,7 +251,37 @@ app.post('/listings', (req, res) => {
 
 // GET - View all listings IF you are the owner
 app.get('/listings', (req, res) => {
+
+  // req. logged in path block
   const {userID} = req.session;
+  const templateVars = {user: undefined};
+
+  if (userID) {
+    return databaseFn.getUserWithId(userID)
+    .then(dbUser => {
+      console.log(`returned user from Id:`, dbUser);
+      templateVars.user = dbUser;
+      console.log('logged in successfully as: ', dbUser.name)
+
+      let filteredDatabase = {}
+      for(let keys in listings) {
+        let value = listings[keys]
+
+        if(value.owner_id === dbUser.id || value.userID === null) { // -> should filter the url from the users Id
+          filteredDatabase[keys] = value;
+        }
+  }
+
+      console.log('filtered db', filteredDatabase)
+      templateVars.listings = filteredDatabase;
+      return res.render('listings', templateVars);
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
+  }
+  // end of req. logged in path block
 
   // Checks if user is logged in
   if (!userID) {
@@ -213,22 +289,16 @@ app.get('/listings', (req, res) => {
     return res.send("Please Log in to create new listing.");
   }
 
-  let filteredDatabase = {}
-  for(let keys in listings) {
-    let value = listings[keys]
-    if(value.owner_id === users[userID].id || value.userID === null) { // -> should filter the url from the users Id
-      filteredDatabase[keys] = value;
-    }
-  }
+  // let filteredDatabase = {}
+  // for(let keys in listings) {
+  //   let value = listings[keys]
+  //   if(value.owner_id === users[userID].id || value.userID === null) { // -> should filter the url from the users Id
+  //     filteredDatabase[keys] = value;
+  //   }
+  // }
 
-  const templateVars = {
-    user: users[userID] || undefined,
-    listings: filteredDatabase
-    // listings: listings
-  };
 
-  console.log('filtered db', filteredDatabase)
-  res.render('listings', templateVars)
+  // res.render('listings', templateVars)
 })
 
 // GET - Show individual listings
