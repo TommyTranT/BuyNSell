@@ -1,20 +1,12 @@
-// bring in DB connection/credentials
-const db = require('./connect.js');
-/* db code below  */
+const { Pool } = require('pg');
 
-// const dbParams = {
-//   host: process.env.DB_HOST,
-//   port: process.env.DB_PORT,
-//   user: process.env.DB_USER,
-//   password: process.env.DB_PASS,
-//   database: process.env.DB_NAME
-// };
-
-// const db = new Pool(dbParams);
-
-// db.connect();
-
-// module.exports = db;
+const pool = new Pool({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME
+});
 
 
 /**
@@ -23,7 +15,8 @@ const db = require('./connect.js');
  * @return {Promise<{}>} A promise to the user.
  */
 const registerNewUser = function(user) {
-  return db
+  console.log('fn called'); // tester REMOVE
+  return pool
     .query(`
       INSERT INTO users (name, email, password)
       VALUES ($1, $2, $3)

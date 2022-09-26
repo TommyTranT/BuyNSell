@@ -1,6 +1,9 @@
 // load .env data into process.env
 require('dotenv').config();
 
+// import database query functions
+const databaseFn = require('./db/index.js');
+
 // Web server config
 const PORT = process.env.PORT || 8080;
 const express = require('express');
@@ -128,18 +131,28 @@ const users = {};
 
 //register new user
 app.post("/register", (req, res) => {
-  const { name, email, password, password2 } = req.body;
-  const newID = 'TESTUSER1'
-  const hashedPassword = bcrypt.hashSync(password, 10);
-
+  console.log('post to register'); // tester REMOVE
+  const user = req.body;
   //password check, REPLACE WITH AJAX form validation
-  if (password !== password2) {
+  if (user.password !== user.password2) {
     res.statusCode = 403;
     return res.send("Passwords do not match. Please try again.");
   }
+  console.log('pw check passed'); // tester REMOVE
+  user.password = bcrypt.hashSync(user.password, 12);
 
-  users[newID] = new User(newID, name, email, hashedPassword);
-  req.session.userID = newID;
+  databaseFn.registerNewUser(user)
+  .then(user => {
+    console.log('cb on db fn called'); // tester REMOVE
+    if (!user) {
+      res.send({error: 'error'});
+      return;
+    }
+    req.session.userId = user.id;
+    res.send("🤗");
+  })
+  .catch(e => res.send(e));
+
   res.redirect(`/`);
 });
 
