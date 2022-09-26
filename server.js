@@ -1,6 +1,9 @@
 // load .env data into process.env
 require('dotenv').config();
 
+// import database query functions
+const databaseFn = require('./db/index.js');
+
 // Web server config
 const PORT = process.env.PORT || 8080;
 const express = require('express');
@@ -13,7 +16,10 @@ const bcrypt = require("bcryptjs");
 const cookieSession = require('cookie-session');
 app.use(cookieSession({
   name: 'session',
-  keys: ['userID']
+  keys: ['userID'],
+
+  // Cookie Options
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
@@ -137,19 +143,27 @@ const users = {};
 
 //register new user
 app.post("/register", (req, res) => {
-  const { name, email, password, password2 } = req.body;
-  const newID = generateRandomString();
-  const hashedPassword = bcrypt.hashSync(password, 10);
+  const user = req.body;
 
   //password check, REPLACE WITH AJAX form validation
-  if (password !== password2) {
+  if (user.password !== user.password2) {
     res.statusCode = 403;
     return res.send("Passwords do not match. Please try again.");
   }
+  user.password = bcrypt.hashSync(user.password, 12);
 
-  users[newID] = new User(newID, name, email, hashedPassword);
-  req.session.userID = newID;
-  res.redirect(`/`);
+  // call helper function from db/index.js
+  databaseFn.registerNewUser(user)
+  .then(user => {
+    if (!user) {
+      res.send({error: 'error'});
+      return;
+    }
+    req.session.userID = user.id;
+    res.redirect(`/`);
+  })
+  // .catch(e => res.send(e));
+
 });
 
 
