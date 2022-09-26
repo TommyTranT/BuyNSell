@@ -196,6 +196,12 @@ app.post('/listings', (req, res) => {
 app.get('/listings', (req, res) => {
   const {userID} = req.session;
 
+  // Checks if user is logged in
+  if (!userID) {
+    res.statusCode = 404;
+    return res.send("Please Log in to create new listing.");
+  }
+
   let filteredDatabase = {}
   for(let keys in listings) {
     let value = listings[keys]
@@ -231,6 +237,7 @@ app.get('/listings/:id', (req, res) => {
 
   res.render('single_listing', templateVars)
 })
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
