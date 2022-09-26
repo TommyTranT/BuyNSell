@@ -6,6 +6,9 @@
 }
 
 nav {
+
+  @include main.button-styling;
+
   display: flex;
   height: 100px;
   align-items: center;
@@ -46,7 +49,6 @@ nav {
   }
 
   button {
-    padding: .7em .9em;
     margin: 7px;
     background-color: main.$accent-color;
     border: none;
@@ -54,14 +56,5 @@ nav {
     font-size: 1.1em;
     transition: opacity .1s;
   }
-
-  button:hover {
-    opacity: 0.8;
-  }
-
-  button:active {
-    opacity: 0.5;
-  }
-
 
 }

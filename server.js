@@ -168,8 +168,7 @@ app.post("/register", (req, res) => {
 // GET - go to create new listings page
 app.get("/new_listing", (req, res) => {
   const {userID} = req.session;
-  const templateVars = { user: users[userID] || undefined };
-  console.log('logged in as: ', users[userID])
+  const templateVars = { user: undefined };
 
   // Checks if user is logged in
   if (!userID) {

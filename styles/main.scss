@@ -1,8 +1,35 @@
-$background-color: rgb(228, 228, 228);
+$background-color: rgb(233, 233, 233);
 $primary-color: rgb(0, 30, 58);
-$accent-color: rgb(170, 170, 170);
+$accent-color: rgb(199, 209, 231);
 $default-font: 'Roboto Condensed', sans-serif;
 $text-color: black;
+
+@mixin reset {
+  margin: 0;
+  padding: 0;
+  border-style: none;
+}
+
+@mixin button-styling {
+  @include reset;
+
+  button {
+    width: fit-content;
+    padding: .6em .9em;
+    border: none;
+    border-radius: .1em;
+    transition: opacity .1s;
+  }
+
+  button:hover {
+    opacity: 0.8;
+  }
+
+  button:active {
+    opacity: 0.6;
+  }
+
+}
 
 body {
   background: $background-color;
@@ -13,5 +40,5 @@ body {
 main {
   width: 90%;
   margin: 0 auto;
-  font-size: 2em;
+  font-size: 1.5em;
 }

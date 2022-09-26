@@ -1,0 +1,52 @@
+@use 'main';
+
+.form-container {
+
+  @include main.button-styling;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 75%;
+  margin: 0px auto;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+  }
+
+  header {
+    font-size: 1.75em;
+    margin: 15px 0;
+  }
+
+  input, label {
+    display: block;
+    margin: 10px 0;
+    width: 100%;
+    padding: .15em;
+  }
+
+  textarea {
+    resize: none;
+    height: 250px;
+    width: 100%;
+    padding: 0.25em;
+  }
+
+  #input-price {
+    width: 25%;
+    margin-left: auto;
+
+  }
+
+  button {
+    background-color: main.$primary-color;
+    color: white;
+    margin: 10px auto;
+  }
+
+}

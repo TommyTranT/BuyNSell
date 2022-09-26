@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Home Page</title>
+
+  <meta charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+  <!-- External CSS -->
+  <link rel="stylesheet" href="/vendor/border-box.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
+  <!-- App CSS -->
+  <link rel="stylesheet" href="/styles/main.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/nav.css" />
+  <link rel="stylesheet" href="/styles/forms.css" />
+
+</head>
+
+<body>
+  <%- include('partials/_navbar2') %>
+  <main>
+    <div class="form-container">
+      <header>Create Account</header>
+      <form action="/register" method="POST">
+        <div>
+          <label for="user-name">Name:</label>
+          <input
+          id="user-name"
+          type="text"
+          name="name"
+          placeholder="name"
+          />
+        </div>
+        <div>
+          <label for="user-email">Email:</label>
+          <input
+          id="user-email"
+          type="email"
+          name="email"
+          placeholder="yourname@example.com"
+          />
+        </div>
+        <div>
+          <label for="user-password">Password:</label>
+          <input
+          id="user-password"
+          type="password"
+          name="password"
+          placeholder="password"
+          />
+        </div>
+        <div>
+          <label for="user-password-reenter">Password:</label>
+          <input
+          id="user-password-reenter"
+          type="password"
+          name="password2"
+          placeholder="re-enter password"
+          />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+      <p>Already registered? Log in <a href="/login">here.</a></p>
+    </div>
+  </main>
+</body>
+
+</html>
