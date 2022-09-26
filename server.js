@@ -44,6 +44,15 @@ app.use('/api/widgets', widgetApiRoutes);
 app.use('/users', usersRoutes);
 // Note: mount other resources here, using the same pattern above
 
+// TEMP database for Listings
+const listings = {};
+
+// Generates a random ID
+const generateRandomString = () => {
+  let result = (Math.random() + 1).toString(36).substring(6);
+  return result;
+}
+
 // Home page
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
@@ -129,7 +138,7 @@ const users = {};
 //register new user
 app.post("/register", (req, res) => {
   const { name, email, password, password2 } = req.body;
-  const newID = 'TESTUSER1'
+  const newID = generateRandomString();
   const hashedPassword = bcrypt.hashSync(password, 10);
 
   //password check, REPLACE WITH AJAX form validation
@@ -142,6 +151,93 @@ app.post("/register", (req, res) => {
   req.session.userID = newID;
   res.redirect(`/`);
 });
+
+
+// GET - go to create new listings page
+app.get("/new_listing", (req, res) => {
+  const {userID} = req.session;
+  const templateVars = { user: users[userID] || undefined };
+  console.log('logged in as: ', users[userID])
+
+  // Checks if user is logged in
+  if (!userID) {
+    res.statusCode = 404;
+    return res.send("Please Log in to create new listing.");
+  }
+
+  res.render("new_listing", templateVars);
+});
+
+// POST - Take input from create listings page and input data into Obj
+app.post('/listings', (req, res) => {
+  const {userID} = req.session;
+  const templateVars = { user: users[userID] || undefined };
+  const ownerId = users[userID].id;
+  const ownerName = users[userID].name;
+  console.log('logged in as: ', users[userID])
+
+  let id = generateRandomString();
+  listings[id] = {};
+  listings[id].name = req.body.name;
+  listings[id].description = req.body.description;
+  listings[id].price = req.body.price;
+  listings[id].is_sold = false;
+  listings[id].owner_id = ownerId;
+  listings[id].owner_name = ownerName;
+  listings[id].is_removed = false;
+
+  console.log(`Listings database`, listings);
+
+  res.redirect(`/listings`)
+  // res.redirect(`/listings/${id}`)
+})
+
+// GET - View all listings IF you are the owner
+app.get('/listings', (req, res) => {
+  const {userID} = req.session;
+
+  // Checks if user is logged in
+  if (!userID) {
+    res.statusCode = 404;
+    return res.send("Please Log in to create new listing.");
+  }
+
+  let filteredDatabase = {}
+  for(let keys in listings) {
+    let value = listings[keys]
+    if(value.owner_id === users[userID].id || value.userID === null) { // -> should filter the url from the users Id
+      filteredDatabase[keys] = value;
+    }
+  }
+
+  const templateVars = {
+    user: users[userID] || undefined,
+    listings: filteredDatabase
+    // listings: listings
+  };
+
+  console.log('filtered db', filteredDatabase)
+  res.render('listings', templateVars)
+})
+
+// GET - Show individual listings
+app.get('/listings/:id', (req, res) => {
+  const {userID} = req.session;
+  console.log('logged in as: ', users[userID])
+
+  const id = req.params.id;
+
+  const templateVars = {
+    user: users[userID] || undefined,
+    name: listings[req.params.id].name,
+    price: listings[req.params.id].price,
+    description: listings[req.params.id].description,
+    owner_name: listings[req.params.id].owner_name,
+  };
+
+  res.render('single_listing', templateVars)
+})
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
