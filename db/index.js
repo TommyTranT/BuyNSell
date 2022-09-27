@@ -199,3 +199,34 @@ const addNewListing = function(listing) {
     });
 }
 exports.addNewListing = addNewListing;
+
+
+/**
+ * Get all listings from the db with limit option
+ * @param {Number} limit
+ * @return {Promise<{}>} A promise to the user.
+**/
+const getLimitListings = function(limit) {
+  console.log(`called getLimitListings`);
+  return pool
+    .query(`
+      SELECT listings.id, title AS name, description, price, is_sold, is_removed, owner_id, users.name AS owner_name
+      FROM listings
+      JOIN users ON owner_id = users.id
+      ORDER BY listings.id DESC
+      LIMIT $1;
+      `, [limit]
+    )
+    .then((result) => {
+      if (result.rows) {
+        console.log(`result rows:`, result.rows);
+        return Promise.resolve(result.rows);
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+exports.getLimitListings = getLimitListings;

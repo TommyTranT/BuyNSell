@@ -34,127 +34,19 @@
     <h4>FEATURED CONTENT</h4>
     <!--LISTINGS RENDERED HERE-->
     <div class="main-container">
-      <div class="item-listing">
-        <header>LISTING TITLE</header>
-        <div class="item-photo">IMAGE</div>
-        <article>
-          DESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTION
-        </article>
-        <footer>
-          <div class="item-date">DATE POSTED</div>
-          <div class="item-price">$99</div>
-        </footer>
-      </div>
-      <div class="item-listing">
-        <header>LISTING TITLE</header>
-        <div class="item-photo">IMAGE</div>
-        <article>
-          DESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTION
-        </article>
-        <footer>
-          <div class="item-date">DATE POSTED</div>
-          <div class="item-price">$99</div>
-        </footer>
-      </div>
-      <div class="item-listing">
-        <header>LISTING TITLE</header>
-        <div class="item-photo">IMAGE</div>
-        <article>
-          DESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTION
-        </article>
-        <footer>
-          <div class="item-date">DATE POSTED</div>
-          <div class="item-price">$99</div>
-        </footer>
-      </div>
-      <div class="item-listing">
-        <header>LISTING TITLE</header>
-        <div class="item-photo">IMAGE</div>
-        <article>
-          DESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTION
-        </article>
-        <footer>
-          <div class="item-date">DATE POSTED</div>
-          <div class="item-price">$99</div>
-        </footer>
-      </div>
-      <div class="item-listing">
-        <header>LISTING TITLE</header>
-        <div class="item-photo">IMAGE</div>
-        <article>
-          DESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTION
-        </article>
-        <footer>
-          <div class="item-date">DATE POSTED</div>
-          <div class="item-price">$99</div>
-        </footer>
-      </div>
-      <div class="item-listing">
-        <header>LISTING TITLE</header>
-        <div class="item-photo">IMAGE</div>
-        <article>
-          DESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTION
-        </article>
-        <footer>
-          <div class="item-date">DATE POSTED</div>
-          <div class="item-price">$99</div>
-        </footer>
-      </div>
-      <div class="item-listing">
-        <header>LISTING TITLE</header>
-        <div class="item-photo">IMAGE</div>
-        <article>
-          DESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTION
-        </article>
-        <footer>
-          <div class="item-date">DATE POSTED</div>
-          <div class="item-price">$99</div>
-        </footer>
-      </div>
-      <div class="item-listing">
-        <header>LISTING TITLE</header>
-        <div class="item-photo">IMAGE</div>
-        <article>
-          DESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTION
-        </article>
-        <footer>
-          <div class="item-date">DATE POSTED</div>
-          <div class="item-price">$99</div>
-        </footer>
-      </div>
-      <div class="item-listing">
-        <header>LISTING TITLE</header>
-        <div class="item-photo">IMAGE</div>
-        <article>
-          DESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTION
-        </article>
-        <footer>
-          <div class="item-date">DATE POSTED</div>
-          <div class="item-price">$99</div>
-        </footer>
-      </div>
-      <div class="item-listing">
-        <header>LISTING TITLE</header>
-        <div class="item-photo">IMAGE</div>
-        <article>
-          DESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTION
-        </article>
-        <footer>
-          <div class="item-date">DATE POSTED</div>
-          <div class="item-price">$99</div>
-        </footer>
-      </div>
-      <div class="item-listing">
-        <header>LISTING TITLE</header>
-        <div class="item-photo">IMAGE</div>
-        <article>
-          DESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTIONDESCRIPTION
-        </article>
-        <footer>
-          <div class="item-date">DATE POSTED</div>
-          <div class="item-price">$99</div>
-        </footer>
-      </div>
+      <% for (let listing of listings) { %>
+        <div class="item-listing">
+          <header><%= listing.name %></header>
+          <div class="item-photo">IMAGE</div>
+          <article>
+            <%= listing.description %>
+          </article>
+          <footer>
+            <div class="item-date">DATE POSTED</div>
+            <div class="item-price">$<%= listing.price %></div>
+          </footer>
+        </div>
+      <% } %>
   </main>
 
 </body>
