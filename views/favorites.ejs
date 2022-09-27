@@ -29,41 +29,8 @@
 <body>
   <%- include('partials/_navbar') %>
     <main>
-      <h1>My Listings</h1>
-      <% for (const listingKeys in listings) {%>
-        <container>
-          <div>
-            <h2>
-              <%= listings[listingKeys].name %>
-            </h2>
-            <text>
-              <%= listings[listingKeys].description %>
-            </text>
-          </div>
-
-          <h2>$<%= listings[listingKeys].price %>
-          </h2>
-
-          <form action = "/listings/<%= listings[listingKeys].id %>" method="GET">
-            <button type="submit">View</button>
-          </form>
-          <form>
-            <button type="submit">Edit</button>
-          </form>
-          <form>
-            <button type="submit">Delete</button>
-          </form>
-
-          <div>
-            <h2>02/22/2022</h2>
-            <!-- If sold, display SOLD -->
-          </div>
-        </container>
-        <br />
-        <% } %>
+      <h1>Favorites</h1>
     </main>
-
-
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
