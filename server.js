@@ -99,8 +99,16 @@ app.get('/', (req, res) => {
     })
   }
   /* end of required block */
-
-  res.render('index', templateVars);
+  databaseFn.getLimitListings(8)
+        .then(listings => {
+          templateVars.listings = listings;
+          console.log(`listings from fn:`, listings);
+          return res.render('index', templateVars);
+        })
+        .catch(e => {
+          console.log(e);
+          res.send(e);
+        })
 });
 
 //go to login page
