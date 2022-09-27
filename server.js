@@ -334,7 +334,7 @@ app.get('/listings/:id', (req, res) => {
       return databaseFn.getListingWithId(id);
     })
     .then(listing => {
-        templateVars.name = listing.name;
+        templateVars.title = listing.title;
         templateVars.price = listing.price;
         templateVars.description = listing.description;
         templateVars.owner_name = listing.owner_name;
