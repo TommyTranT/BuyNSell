@@ -1,19 +1,17 @@
-// $(() => {
-//   $("heart").click(function(){
-//     console.log("You've clicked my heart")
-//   })
+$(document).ready(function(){
+  $(".heart").click(function(){
+    alert("You've clicked my heart");
 
-// }); // End of document ready
+    const favoritesDB = {}; // Generate a new favorites database
+    // grab value
 
-// $(document).ready(function(){
-//   $(".heart").click(function(){
-//     alert("You've clicked my heart");
+    // import function from index.js
 
-//     const favoritesDB = {}; // Generate a new favorites database
+    // listing ID
 
+    // user ID
 
+    console.log(favoritesDB)
 
-//     console.log(favoritesDB)
-
-//   });
-// });
+  });
+});

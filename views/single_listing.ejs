@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- JQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
 <head>
   <title>Home Page</title>
 
@@ -33,46 +30,44 @@
 <body>
   <%- include('partials/_navbar') %>
   <main>
-    <article>
-      <div class="listing_info">
-        <h1></h1>
-        <h2><%= id %></h2>
-        <h2><%= name %></h2>
-        <h3>$<%= price %></h3>
-        <a href="#"><i class="heart fa fa-heart hover"></i></a>
-        <br />
-        <h3>Description</h3>
-        <text><%= description %></text>
+    <div class="listing-container">
+      <div class="item-container">
+        <div class="item-listing">
+          <header>LISTING TITLE</header>
+          <div class="item-photo">IMAGE HERE</div>
+          <article>
+            THIS IS A GREAT ITEM PROBABLY THE BEST EVER THANK YOU FOR VISITING MY LISTING I HOPE YOU WILL CONSIDER SENDING ME A MESSAGE TO DISCUSS PAYMENT AND DELIVERY
+          </article>
+          <footer>
+            <div class="item-date">DATE POSTED</div>
+            <div class="item-price">$99</div>
+          </footer>
+          <div class="favorites">
+            <div><b>Add to Favorites</b></div>
+            <i class="fa-solid fa-heart add-favorite"></i>
+          </div>
+        </div>
+      </div>
+      <div class="item-container">
+        <div class="contact-seller-container">
+          <div class="seller-avatar">AVATAR</div>
+          <header>SELLER NAME</header>
+          <button id="message-dropdown">
+            Contact Seller
+          </button>
+        </div>
+        <form action="/listings/:id" method="POST">
+        <div class="contact-seller-container" id="write-message">
+            <textarea
+            placeholder="your message here"
+            ></textarea>
+            <button type="submit" id="send-message">Send</button>
+          </div>
+        </form>
       </div>
 
-      <div class="owner_info">
-        <label><%= owner_name %></label>
-        <button type="GET">Message</button>
-      </div>
-    </article>
-
-
+    </div>
   </main>
-
-  <!--  -->
-  <script type="text/javascript" src="/scripts/add-favorite.js"></script>
-
-  <!-- Bootstrap JS -->
-  <script
-    src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"
-  ></script>
 </body>
 
 </html>
