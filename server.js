@@ -230,6 +230,8 @@ app.post('/listings', (req, res) => {
         listings[id].owner_id = ownerId;
         listings[id].owner_name = ownerName;
         listings[id].is_removed = false;
+
+        // REMOVE BEFORE PUSH
         listings[id].id = id
 
         console.log(`Listings database`, listings);
@@ -301,11 +303,12 @@ app.get('/listings/:id', (req, res) => {
       .then(dbUser => {
         console.log(`returned user from Id:`, dbUser);
         templateVars.user = dbUser;
-        // templateVars.id = listings[req.params.id],
         templateVars.name = listings[req.params.id].name,
         templateVars.price = listings[req.params.id].price,
         templateVars.description = listings[req.params.id].description,
         templateVars.owner_name = dbUser.name,
+
+        // REMOVE BEFORE PUSH
         templateVars.id = listings[req.params.id].id
 
         console.log('logged in successfully as: ', dbUser.name)
@@ -321,6 +324,30 @@ app.get('/listings/:id', (req, res) => {
   res.render('single_listing', templateVars);
 });
 
+// GET - Favorites Page: Show the listings a user added to favorites
+app.get('/favorites', (req, res) => {
+  const { userID } = req.session;
+  const templateVars = { user: undefined };
+  if (userID) {
+    return databaseFn.getUserWithId(userID)
+      .then(dbUser => {
+        console.log(`returned user from Id:`, dbUser);
+        templateVars.user = dbUser;
+
+        // route logic here
+
+        console.log('logged in successfully as: ', dbUser.name)
+        return res.render('favorites', templateVars);
+      })
+      .catch(e => {
+        console.log(e);
+        res.send(e);
+      })
+  }
+  /* end of required block */
+
+  res.render('index', templateVars);
+})
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
