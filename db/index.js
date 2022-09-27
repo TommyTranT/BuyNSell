@@ -231,3 +231,30 @@ const getLimitListings = function(limit) {
     });
 }
 exports.getLimitListings = getLimitListings;
+
+
+/**
+ * Add a new favorite to the database.
+ * @param {{user_id: integer, listing_id: integer}} favorite
+ * @return {Promise<{}>} A promise to the user.
+**/
+const addFavorite = function(favorite) {
+  return pool
+    .query(`
+      INSERT INTO favorites (user_id, listing_id)
+      VALUES ($1, $2)
+      RETURNING *
+      `, [favorite.user_id, favorite.listing_id]
+    )
+    .then((result) => {
+      if (result.rows[0]) {
+        return Promise.resolve(result.rows[0]);
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+exports.addFavorite = addFavorite;
