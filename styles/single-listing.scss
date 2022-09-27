@@ -27,7 +27,7 @@
   }
 
   article {
-    min-height: 150px;
+    min-height: 100px;
   }
 
   footer {
@@ -67,6 +67,10 @@
 
   }
 
+}
+
+#listing_id, #user_id {
+  display: none;
 }
 
 .contact-seller-container {

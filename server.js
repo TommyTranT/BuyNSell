@@ -337,11 +337,11 @@ app.get('/listings/:id', (req, res) => {
       return databaseFn.getListingWithId(id);
     })
     .then(listing => {
-        templateVars.id = listing.id;
-        templateVars.name = listing.name;
+        templateVars.title = listing.title;
         templateVars.price = listing.price;
         templateVars.description = listing.description;
-        templateVars.owner_name = listing.owner_name; // Returning undefined
+        templateVars.listing_id = listing.listing_id;
+        templateVars.owner_name = listing.owner_name;
       // end of route logic
 
       console.log(listing.owner_name) // Returning undefined

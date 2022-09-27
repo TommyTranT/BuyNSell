@@ -30,17 +30,19 @@
 <body>
   <%- include('partials/_navbar') %>
   <main>
+    <div id="listing_id"><%= listing_id %></div>
+    <div id="user_id"><%= user.id %></div>
     <div class="listing-container">
       <div class="item-container">
         <div class="item-listing">
-          <header>LISTING TITLE</header>
+          <header><%= title %></header>
           <div class="item-photo">IMAGE HERE</div>
           <article>
-            THIS IS A GREAT ITEM PROBABLY THE BEST EVER THANK YOU FOR VISITING MY LISTING I HOPE YOU WILL CONSIDER SENDING ME A MESSAGE TO DISCUSS PAYMENT AND DELIVERY
+            <%= description %>
           </article>
           <footer>
             <div class="item-date">DATE POSTED</div>
-            <div class="item-price">$99</div>
+            <div class="item-price">$<%= price %></div>
           </footer>
           <div class="favorites">
             <div><b>Add to Favorites</b></div>
@@ -51,7 +53,7 @@
       <div class="item-container">
         <div class="contact-seller-container">
           <div class="seller-avatar">AVATAR</div>
-          <header>SELLER NAME</header>
+          <header><%= owner_name %></header>
           <button id="message-dropdown">
             Contact Seller
           </button>
