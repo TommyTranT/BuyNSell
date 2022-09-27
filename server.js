@@ -190,6 +190,11 @@ app.get("/new_listing", (req, res) => {
       console.log(`returned user from Id:`, dbUser);
       templateVars.user = dbUser;
       console.log('logged in successfully as: ', dbUser.name)
+
+      /*
+      implement route logic here
+      */
+
       return res.render('new_listing', templateVars);
     })
     .catch(e => {
@@ -344,8 +349,6 @@ app.get('/listings/:id', (req, res) => {
         templateVars.owner_name = listing.owner_name;
       // end of route logic
 
-      console.log(listing.owner_name) // Returning undefined
-
       return res.render('single_listing', templateVars);
     })
     .catch(e => {
@@ -388,7 +391,27 @@ app.get('/favorites', (req, res) => {
 
 app.post('/favorites', (req, res) => {
 
-  console.log(req.body)
+  // req. logged in path block
+  const {userID} = req.session;
+
+  if (userID) {
+    return databaseFn.addFavorite({user_id: req.body.user_id, listing_id: req.body.listing_id})
+    .then(response => {
+      console.log(`added`, response, ` to favorites`);
+      return console.log('favorite added successfully!');
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
+  }
+  // end of req. logged in path block
+
+  // Checks if user is logged in
+  if (!userID) {
+    res.statusCode = 404;
+    return res.send("Please Log in to create new listing.");
+  }
 })
 
 app.listen(PORT, () => {

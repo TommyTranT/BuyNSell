@@ -239,6 +239,7 @@ exports.getLimitListings = getLimitListings;
  * @return {Promise<{}>} A promise to the user.
 **/
 const addFavorite = function(favorite) {
+  console.log(`addFavorite fn called...`);
   return pool
     .query(`
       INSERT INTO favorites (user_id, listing_id)
