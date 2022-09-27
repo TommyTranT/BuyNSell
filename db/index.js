@@ -172,3 +172,30 @@ const getListingsByOwnerId = function(id) {
     });
 }
 exports.getListingsByOwnerId = getListingsByOwnerId;
+
+
+/**
+ * Add a new listing to the database.
+ * @param {{title: string, description: string, price: integer, owner_id: integer}} listing
+ * @return {Promise<{}>} A promise to the user.
+**/
+const addNewListing = function(listing) {
+  return pool
+    .query(`
+      INSERT INTO listings (title, description, price, owner_id)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *
+      `, [listing.title, listing.description, listing.price, listing.owner_id]
+    )
+    .then((result) => {
+      if (result.rows[0]) {
+        return Promise.resolve(result.rows[0]);
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+exports.addNewListing = addNewListing;

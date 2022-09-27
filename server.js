@@ -217,24 +217,21 @@ app.post('/listings', (req, res) => {
     return databaseFn.getUserWithId(userID)
     .then(dbUser => {
       console.log(`returned user from Id:`, dbUser);
+      console.log('logged in successfully as: ', dbUser.name)
 
       // tommy's route logic
       const ownerId = dbUser.id;
-      const ownerName = dbUser.name;
 
-      let id = generateRandomString();
-      listings[id] = {};
-      listings[id].name = req.body.name;
-      listings[id].description = req.body.description;
-      listings[id].price = req.body.price;
-      listings[id].is_sold = false;
-      listings[id].owner_id = ownerId;
-      listings[id].owner_name = ownerName;
-      listings[id].is_removed = false;
+      const listing = {};
+      listing.title = req.body.name;
+      listing.description = req.body.description;
+      listing.price = req.body.price;
+      listing.owner_id = ownerId;
 
-      console.log(`Listings database`, listings);
+      return databaseFn.addNewListing(listing);
+    })
+    .then(result => {
 
-      console.log('logged in successfully as: ', dbUser.name)
       return res.redirect('listings');
     })
     .catch(e => {
@@ -274,7 +271,7 @@ app.get('/listings', (req, res) => {
       return databaseFn.getListingsByOwnerId(dbUser.id)
     })
     .then(listings => {
-      console.log(`new filtered db:`, listings);
+      console.log(`return value of promise/result.rows:`, listings);
       // console.log('filtered db:', filteredDatabase)
       templateVars['listings'] = {};
       for (let listing of listings) {
@@ -290,7 +287,7 @@ app.get('/listings', (req, res) => {
         }
 
       }
-      console.log(`new templateVars:`, templateVars.listings);
+      console.log(`formatted return listings for ejs view:`, templateVars.listings);
       return res.render('listings', templateVars);
     })
     .catch(e => {
