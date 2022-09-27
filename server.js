@@ -303,20 +303,41 @@ app.get('/listings', (req, res) => {
 
 // GET - Show individual listings
 app.get('/listings/:id', (req, res) => {
-  const {userID} = req.session;
-  console.log('logged in as: ', users[userID])
 
   const id = req.params.id;
 
-  const templateVars = {
-    user: users[userID] || undefined,
-    name: listings[req.params.id].name,
-    price: listings[req.params.id].price,
-    description: listings[req.params.id].description,
-    owner_name: listings[req.params.id].owner_name,
-  };
+  /* db users query/navbar req. logic */
+  const {userID} = req.session;
+  const templateVars = {user: undefined};
+  if (userID) {
+    return databaseFn.getUserWithId(userID)
+    .then(dbUser => {
+      console.log(`returned user from Id:`, dbUser);
+      templateVars.user = dbUser;
+      console.log('logged in successfully as: ', dbUser.name)
 
-  res.render('single_listing', templateVars)
+      // route logic here
+      return databaseFn.getListingWithId(id);
+    })
+    .then(listing => {
+        templateVars.name = listing.name;
+        templateVars.price = listing.price;
+        templateVars.description = listing.description;
+        templateVars.owner_name = listing.owner_name;
+      // end of route logic
+
+      return res.render('single_listing', templateVars);
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
+  }
+  /* end of required block */
+
+  if (!userID) {
+    res.redirect('/');
+  }
 })
 
 
