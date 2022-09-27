@@ -342,6 +342,7 @@ app.get('/listings/:id', (req, res) => {
         templateVars.title = listing.title;
         templateVars.price = listing.price;
         templateVars.description = listing.description;
+        templateVars.listing_id = listing.listing_id;
         templateVars.owner_name = listing.owner_name;
       // end of route logic
 

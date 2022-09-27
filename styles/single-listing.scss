@@ -69,6 +69,10 @@
 
 }
 
+#listing_id, #user_id {
+  display: none;
+}
+
 .contact-seller-container {
   @include main.button-styling;
 
