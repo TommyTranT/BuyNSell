@@ -280,7 +280,8 @@ app.get('/listings', (req, res) => {
           is_sold: listing.is_sold,
           owner_id: listing.owner_id,
           owner_name: listing.owner_name,
-          is_removed: listing.is_removed
+          is_removed: listing.is_removed,
+          id: listing.id
         }
 
       }
@@ -331,11 +332,14 @@ app.get('/listings/:id', (req, res) => {
       return databaseFn.getListingWithId(id);
     })
     .then(listing => {
+        templateVars.id = listing.id;
         templateVars.name = listing.name;
         templateVars.price = listing.price;
         templateVars.description = listing.description;
-        templateVars.owner_name = listing.owner_name;
+        templateVars.owner_name = listing.owner_name; // Returning undefined
       // end of route logic
+
+      console.log(listing.owner_name) // Returning undefined
 
       return res.render('single_listing', templateVars);
     })
@@ -350,6 +354,32 @@ app.get('/listings/:id', (req, res) => {
     res.redirect('/');
   }
 })
+
+// GET - View favorites page
+app.get('/favorites', (req, res) => {
+
+  const {userID} = req.session;
+  const templateVars = {user: undefined};
+  if (userID) {
+    return databaseFn.getUserWithId(userID)
+    .then(dbUser => {
+      console.log(`returned user from Id:`, dbUser);
+      templateVars.user = dbUser;
+
+      // route logic here
+
+      console.log('logged in successfully as: ', dbUser.name)
+      return res.render('favorites', templateVars);
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
+  }
+  /* end of required block */
+
+  res.render('index', templateVars);
+});
 
 
 app.listen(PORT, () => {
