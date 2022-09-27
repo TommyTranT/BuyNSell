@@ -386,6 +386,10 @@ app.get('/favorites', (req, res) => {
   res.render('index', templateVars);
 });
 
+app.post('/favorites', (req, res) => {
+
+  console.log(req.body)
+})
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
