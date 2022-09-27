@@ -2,63 +2,60 @@
 <html lang="en">
 
 <head>
-  <title>Create Listing</title>
+  <title>Home Page</title>
 
   <meta charset="UTF-8" >
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <meta name="viewport" content="width=device-width, initial-scale=1.0" >
-
-    <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-      crossorigin="anonymous"
-    />
-
-  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
+  <!-- External CSS -->
   <link rel="stylesheet" href="/vendor/border-box.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
+  <!-- App CSS -->
   <link rel="stylesheet" href="/styles/main.css" />
   <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/nav.css" />
+  <link rel="stylesheet" href="/styles/forms.css" />
 
-  <script src="/vendor/jquery-3.0.0.js"></script>
-  <script defer src="/scripts/app.js"></script>
 </head>
 
 <body>
-  <%- include('partials/_navbar') %>
+  <%- include('partials/_navbar2') %>
   <main>
-    <h1>Post an AD</h1>
+    <div class="form-container">
+      <header>Post New Listing</header>
       <form action="/listings" method="POST">
-        <h2>Title</h2>
-        <input name="name" type="text" />
-        <h2>Description</h2>
-        <textarea name="description" rows="8" col="70"></textarea>
-
         <div>
-          <h2>Price</h2>
-          <input name="price" type="number" />
+          <label for="listing-title">Title:</label>
+          <input
+          id="listing-title"
+          type="text"
+          name="name"
+          placeholder="Ad Title Here"
+          />
         </div>
-        <button type="sumbit">Post Ad</button>
+        <div>
+          <label for="listing-description">Item Description:</label>
+          <textarea
+            id="listing-description"
+            type="text"
+            name="description"
+            placeholder="Item description"></textarea>
+        </div>
+        <div id="input-price">
+          <label for="listing-price">Price:</label>
+          <input
+            id="listing-price"
+            type="number"
+            name="price">
+          </input>
+        </div>
+        <button type="submit">Post Ad</button>
       </form>
+    </div>
   </main>
-
-  <!-- Bootstrap JS -->
-  <script
-    src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"
-  ></script>
 </body>
 
 </html>
