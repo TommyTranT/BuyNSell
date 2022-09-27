@@ -85,11 +85,16 @@ app.get('/', (req, res) => {
     .then(dbUser => {
       console.log(`returned user from Id:`, dbUser);
       templateVars.user = dbUser;
+      console.log('logged in successfully as: ', dbUser.name)
 
+      databaseFn.getLimitListings(8)
+        .then(listings => {
+          templateVars.listings = listings;
+          console.log(`listings from fn:`, listings);
+          return res.render('index', templateVars);
+        })
       // route logic here
 
-      console.log('logged in successfully as: ', dbUser.name)
-      return res.render('index', templateVars);
     })
     .catch(e => {
       console.log(e);
