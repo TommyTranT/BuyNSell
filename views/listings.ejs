@@ -44,8 +44,11 @@
           <h2>$<%= listings[listingKeys].price %>
           </h2>
 
+          <form action = "/listings/<%= listings[listingKeys] %>" method="GET">
+            <button type="submit">View</button>
+          </form>
           <form>
-            <button type="submit">Edit</button>
+            <button type="submit">Mark as Sold</button>
           </form>
           <form>
             <button type="submit">Delete</button>
