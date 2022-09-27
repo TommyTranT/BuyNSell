@@ -70,31 +70,28 @@ app.get('/', (req, res) => {
   /* ONLY USE THIS BLOCK FOR RENDERS WHERE THE USER IS LOGGED IN
   This block is currently required by every page that uses the navbar, and is
   used to render the view with the correct templateVars.user value.
-
   This is required by the navbar partial.
-
   It checks to see if the cookie matches a user in the db, then injects the
   matched user into the EJS view & partials.
-
   On line with return render, change the first param of .render to the view you want to render.
   */
-  const { userID } = req.session;
-  const templateVars = { user: undefined };
+  const {userID} = req.session;
+  const templateVars = {user: undefined};
   if (userID) {
     return databaseFn.getUserWithId(userID)
-      .then(dbUser => {
-        console.log(`returned user from Id:`, dbUser);
-        templateVars.user = dbUser;
+    .then(dbUser => {
+      console.log(`returned user from Id:`, dbUser);
+      templateVars.user = dbUser;
 
-        // route logic here
+      // route logic here
 
-        console.log('logged in successfully as: ', dbUser.name)
-        return res.render('index', templateVars);
-      })
-      .catch(e => {
-        console.log(e);
-        res.send(e);
-      })
+      console.log('logged in successfully as: ', dbUser.name)
+      return res.render('index', templateVars);
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
   }
   /* end of required block */
 
@@ -103,7 +100,7 @@ app.get('/', (req, res) => {
 
 //go to login page
 app.get("/login", (req, res) => {
-  const { userID } = req.session;
+  const {userID} = req.session;
   const templateVars = { user: undefined };
   if (userID) {
     return res.redirect('/');
@@ -114,14 +111,14 @@ app.get("/login", (req, res) => {
 // POST - login
 app.post("/login", (req, res) => {
 
-  const { email, password } = req.body;
+  const {email, password} = req.body;
   console.log(`taken email ${email} and ${password} from req.body`);
 
   // call login function from index.js
   databaseFn.login(email, password)
     .then(user => {
       if (!user) {
-        res.send({ error: "error" });
+        res.send({error: "error"});
         return;
       }
       req.session.userID = user.id;
@@ -141,7 +138,7 @@ app.post("/logout", (req, res) => {
 
 //go to register page
 app.get("/register", (req, res) => {
-  const { userID } = req.session;
+  const {userID} = req.session;
   const templateVars = { user: undefined };
   //redirect if logged in
   if (userID) {
@@ -163,14 +160,14 @@ app.post("/register", (req, res) => {
 
   // call helper function from db/index.js
   databaseFn.registerNewUser(user)
-    .then(user => {
-      if (!user) {
-        res.send({ error: 'error' });
-        return;
-      }
-      req.session.userID = user.id;
-      res.redirect(`/`);
-    })
+  .then(user => {
+    if (!user) {
+      res.send({error: 'error'});
+      return;
+    }
+    req.session.userID = user.id;
+    res.redirect(`/`);
+  })
   // .catch(e => res.send(e));
 
 });
@@ -179,21 +176,21 @@ app.post("/register", (req, res) => {
 app.get("/new_listing", (req, res) => {
 
   // req. logged in path block
-  const { userID } = req.session;
-  const templateVars = { user: undefined };
+  const {userID} = req.session;
+  const templateVars = {user: undefined};
 
   if (userID) {
     return databaseFn.getUserWithId(userID)
-      .then(dbUser => {
-        console.log(`returned user from Id:`, dbUser);
-        templateVars.user = dbUser;
-        console.log('logged in successfully as: ', dbUser.name)
-        return res.render('new_listing', templateVars);
-      })
-      .catch(e => {
-        console.log(e);
-        res.send(e);
-      })
+    .then(dbUser => {
+      console.log(`returned user from Id:`, dbUser);
+      templateVars.user = dbUser;
+      console.log('logged in successfully as: ', dbUser.name)
+      return res.render('new_listing', templateVars);
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
   }
   // end of req. logged in path block
 
@@ -206,44 +203,38 @@ app.get("/new_listing", (req, res) => {
   res.render("new_listing", templateVars);
 });
 
+
 // POST - Take input from create listings page and input data into Obj
 app.post('/listings', (req, res) => {
 
   // req. logged in path block
-  const { userID } = req.session;
+  const {userID} = req.session;
 
   if (userID) {
     return databaseFn.getUserWithId(userID)
-      .then(dbUser => {
-        console.log(`returned user from Id:`, dbUser);
+    .then(dbUser => {
+      console.log(`returned user from Id:`, dbUser);
+      console.log('logged in successfully as: ', dbUser.name)
 
-        // tommy's route logic
-        const ownerId = dbUser.id;
-        const ownerName = dbUser.name;
+      // tommy's route logic
+      const ownerId = dbUser.id;
 
-        let id = generateRandomString();
-        listings[id] = {};
-        listings[id].name = req.body.name;
-        listings[id].description = req.body.description;
-        listings[id].price = req.body.price;
-        listings[id].is_sold = false;
-        listings[id].owner_id = ownerId;
-        listings[id].owner_name = ownerName;
-        listings[id].is_removed = false;
+      const listing = {};
+      listing.title = req.body.name;
+      listing.description = req.body.description;
+      listing.price = req.body.price;
+      listing.owner_id = ownerId;
 
-        // REMOVE BEFORE PUSH
-        listings[id].id = id
+      return databaseFn.addNewListing(listing);
+    })
+    .then(result => {
 
-        console.log(`Listings database`, listings);
-        console.log(`Listings Key`, listings.id)
-
-        console.log('logged in successfully as: ', dbUser.name)
-        return res.redirect('listings');
-      })
-      .catch(e => {
-        console.log(e);
-        res.send(e);
-      })
+      return res.redirect('listings');
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
   }
   // end of req. logged in path block
 
@@ -256,33 +247,50 @@ app.post('/listings', (req, res) => {
 app.get('/listings', (req, res) => {
 
   // req. logged in path block
-  const { userID } = req.session;
-  const templateVars = { user: undefined };
+  const {userID} = req.session;
+  const templateVars = {user: undefined};
 
   if (userID) {
     return databaseFn.getUserWithId(userID)
-      .then(dbUser => {
-        console.log(`returned user from Id:`, dbUser);
-        templateVars.user = dbUser;
-        console.log('logged in successfully as: ', dbUser.name)
+    .then(dbUser => {
+      console.log(`returned user from Id:`, dbUser);
+      templateVars.user = dbUser;
+      console.log('logged in successfully as: ', dbUser.name)
 
-        let filteredDatabase = {}
-        for (let keys in listings) {
-          let value = listings[keys]
+      let filteredDatabase = {}
+      for(let keys in listings) {
+        let value = listings[keys]
 
-          if (value.owner_id === dbUser.id || value.userID === null) { // -> should filter the url from the users Id
-            filteredDatabase[keys] = value;
-          }
+        if(value.owner_id === dbUser.id || value.userID === null) { // -> should filter the url from the users Id
+          filteredDatabase[keys] = value;
+        }
+  }
+      return databaseFn.getListingsByOwnerId(dbUser.id)
+    })
+    .then(listings => {
+      console.log(`return value of promise/result.rows:`, listings);
+      // console.log('filtered db:', filteredDatabase)
+      templateVars['listings'] = {};
+      for (let listing of listings) {
+
+        templateVars.listings[listing.id] = {
+          name: listing.name,
+          description: listing.description,
+          price: listing.price,
+          is_sold: listing.is_sold,
+          owner_id: listing.owner_id,
+          owner_name: listing.owner_name,
+          is_removed: listing.is_removed
         }
 
-        console.log('filtered db', filteredDatabase)
-        templateVars.listings = filteredDatabase;
-        return res.render('listings', templateVars);
-      })
-      .catch(e => {
-        console.log(e);
-        res.send(e);
-      })
+      }
+      console.log(`formatted return listings for ejs view:`, templateVars.listings);
+      return res.render('listings', templateVars);
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
   }
   // end of req. logged in path block
 
@@ -291,63 +299,58 @@ app.get('/listings', (req, res) => {
     res.statusCode = 404;
     return res.send("Please Log in to create new listing.");
   }
+
+  // let filteredDatabase = {}
+  // for(let keys in listings) {
+  //   let value = listings[keys]
+  //   if(value.owner_id === users[userID].id || value.userID === null) { // -> should filter the url from the users Id
+  //     filteredDatabase[keys] = value;
+  //   }
+  // }
+
+
+  // res.render('listings', templateVars)
 })
 
 // GET - Show individual listings
 app.get('/listings/:id', (req, res) => {
 
-  const { userID } = req.session;
-  const templateVars = { user: undefined };
+  const id = req.params.id;
+
+  /* db users query/navbar req. logic */
+  const {userID} = req.session;
+  const templateVars = {user: undefined};
   if (userID) {
     return databaseFn.getUserWithId(userID)
-      .then(dbUser => {
-        console.log(`returned user from Id:`, dbUser);
-        templateVars.user = dbUser;
-        templateVars.name = listings[req.params.id].name,
-        templateVars.price = listings[req.params.id].price,
-        templateVars.description = listings[req.params.id].description,
-        templateVars.owner_name = dbUser.name,
+    .then(dbUser => {
+      console.log(`returned user from Id:`, dbUser);
+      templateVars.user = dbUser;
+      console.log('logged in successfully as: ', dbUser.name)
 
-        // REMOVE BEFORE PUSH
-        templateVars.id = listings[req.params.id].id
+      // route logic here
+      return databaseFn.getListingWithId(id);
+    })
+    .then(listing => {
+        templateVars.name = listing.name;
+        templateVars.price = listing.price;
+        templateVars.description = listing.description;
+        templateVars.owner_name = listing.owner_name;
+      // end of route logic
 
-        console.log('logged in successfully as: ', dbUser.name)
-        return res.render('single_listing', templateVars);
-      })
-      .catch(e => {
-        console.log(e);
-        res.send(e);
-      })
+      return res.render('single_listing', templateVars);
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
   }
   /* end of required block */
 
-  res.render('single_listing', templateVars);
-});
-
-// GET - Favorites Page: Show the listings a user added to favorites
-app.get('/favorites', (req, res) => {
-  const { userID } = req.session;
-  const templateVars = { user: undefined };
-  if (userID) {
-    return databaseFn.getUserWithId(userID)
-      .then(dbUser => {
-        console.log(`returned user from Id:`, dbUser);
-        templateVars.user = dbUser;
-
-        // route logic here
-
-        console.log('logged in successfully as: ', dbUser.name)
-        return res.render('favorites', templateVars);
-      })
-      .catch(e => {
-        console.log(e);
-        res.send(e);
-      })
+  if (!userID) {
+    res.redirect('/');
   }
-  /* end of required block */
-
-  res.render('index', templateVars);
 })
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

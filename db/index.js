@@ -14,7 +14,7 @@ const pool = new Pool({
  * Add a new user to the database.
  * @param {{name: string, password: string, email: string}} user
  * @return {Promise<{}>} A promise to the user.
- */
+**/
 const registerNewUser = function(user) {
   return pool
     .query(`
@@ -40,7 +40,7 @@ exports.registerNewUser = registerNewUser;
  * Get a single user from the database given their email.
  * @param {String} email The email of the user.
  * @return {Promise<{}>} A promise to the user.
- */
+**/
 const getUserWithEmail = function(email) {
   console.log(`fn getuserwithemail called`); // tester delete
   return pool
@@ -69,7 +69,7 @@ exports.getUserWithEmail = getUserWithEmail;
  * Get a single user from the database given their id.
  * @param {string} id The id of the user.
  * @return {Promise<{}>} A promise to the user.
- */
+**/
  const getUserWithId = function(id) {
   console.log(`called getUserWithId`);
   return pool
@@ -93,11 +93,11 @@ exports.getUserWithEmail = getUserWithEmail;
 exports.getUserWithId = getUserWithId;
 
 
- /**
-   * Check if a user exists with a given username and password
-   * @param {String} email
-   * @param {String} password encrypted
-   */
+/**
+ * Check if a user exists with a given username and password
+ * @param {String} email
+ * @param {String} password encrypted
+**/
 const login = function(email, password) {
   console.log(`fn login called`);
   return getUserWithEmail(email)
@@ -114,3 +114,88 @@ const login = function(email, password) {
     });
 }
 exports.login = login;
+
+
+/**
+ * Get a single listing from the db given its id
+ * @param {Number} id
+ * @return {Promise<{}>} A promise to the user.
+**/
+const getListingWithId = function(id) {
+  console.log(`called getListingWithId`);
+  return pool
+    .query(`
+      SELECT *
+      FROM listings
+      WHERE id = $1;
+      `, [id]
+    )
+    .then((result) => {
+      if (result.rows[0]) {
+        return Promise.resolve(result.rows[0]);
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+exports.getListingWithId = getListingWithId;
+
+
+/**
+ * Get all owned listings from the db given their owner's id
+ * @param {Number} id
+ * @return {Promise<{}>} A promise to the user.
+**/
+const getListingsByOwnerId = function(id) {
+  console.log(`called getListingsByOwnerId`);
+  return pool
+    .query(`
+      SELECT listings.id, title AS name, description, price, is_sold, is_removed, owner_id, users.name AS owner_name
+      FROM listings
+      JOIN users ON owner_id = users.id
+      WHERE owner_id = $1;
+      `, [id]
+    )
+    .then((result) => {
+      if (result.rows) {
+        console.log(`result rows:`, result.rows);
+        return Promise.resolve(result.rows);
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+exports.getListingsByOwnerId = getListingsByOwnerId;
+
+
+/**
+ * Add a new listing to the database.
+ * @param {{title: string, description: string, price: integer, owner_id: integer}} listing
+ * @return {Promise<{}>} A promise to the user.
+**/
+const addNewListing = function(listing) {
+  return pool
+    .query(`
+      INSERT INTO listings (title, description, price, owner_id)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *
+      `, [listing.title, listing.description, listing.price, listing.owner_id]
+    )
+    .then((result) => {
+      if (result.rows[0]) {
+        return Promise.resolve(result.rows[0]);
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+exports.addNewListing = addNewListing;
