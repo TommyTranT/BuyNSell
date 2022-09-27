@@ -142,3 +142,33 @@ const getListingWithId = function(id) {
     });
 }
 exports.getListingWithId = getListingWithId;
+
+
+/**
+ * Get all owned listings from the db given their owner's id
+ * @param {Number} id
+ * @return {Promise<{}>} A promise to the user.
+**/
+const getListingsByOwnerId = function(id) {
+  console.log(`called getListingsByOwnerId`);
+  return pool
+    .query(`
+      SELECT listings.id, title AS name, description, price, is_sold, is_removed, owner_id, users.name AS owner_name
+      FROM listings
+      JOIN users ON owner_id = users.id
+      WHERE owner_id = $1;
+      `, [id]
+    )
+    .then((result) => {
+      if (result.rows) {
+        console.log(`result rows:`, result.rows);
+        return Promise.resolve(result.rows);
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+exports.getListingsByOwnerId = getListingsByOwnerId;

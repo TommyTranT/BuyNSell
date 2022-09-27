@@ -271,9 +271,26 @@ app.get('/listings', (req, res) => {
           filteredDatabase[keys] = value;
         }
   }
+      return databaseFn.getListingsByOwnerId(dbUser.id)
+    })
+    .then(listings => {
+      console.log(`new filtered db:`, listings);
+      // console.log('filtered db:', filteredDatabase)
+      templateVars['listings'] = {};
+      for (let listing of listings) {
 
-      console.log('filtered db', filteredDatabase)
-      templateVars.listings = filteredDatabase;
+        templateVars.listings[listing.id] = {
+          name: listing.name,
+          description: listing.description,
+          price: listing.price,
+          is_sold: listing.is_sold,
+          owner_id: listing.owner_id,
+          owner_name: listing.owner_name,
+          is_removed: listing.is_removed
+        }
+
+      }
+      console.log(`new templateVars:`, templateVars.listings);
       return res.render('listings', templateVars);
     })
     .catch(e => {
