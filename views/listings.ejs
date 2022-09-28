@@ -29,8 +29,7 @@
   <main>
     <section class="container-vertical">
       <% for (const listingKeys in listings) { %>
-        <div id="listing_id"><%= listing[listingKey].id %></div>
-        <!-- <div id="user_id"><%= user.id %></div> -->
+
       <div class="thread-container">
         <div class="single-container">
           <header>
@@ -57,9 +56,9 @@
               <form action = "/edit/<%= listings[listingKeys].id %>" method="GET">
                 <button type="submit">Edit</button>
               </form>
-
               <button class="delete-button" type="submit">Delete</button>
 
+              <div style="display: none" class="listing-key"><%= listings[listingKeys].id %></div>
               <button>Mark Sold</button>
             </div>
           </footer>
