@@ -471,7 +471,7 @@ app.post('/edit/:id', (req, res) => {
   const newPrice = req.body.newPrice;
 
   // Console.log was success, we are returning the right data
-  console.log(`my new title`, newTitle)
+  console.log(`new db entry`, newTitle, newDescription, newPrice)
 
   // Need to delete listing from database where listings_id = req.params.id
 
