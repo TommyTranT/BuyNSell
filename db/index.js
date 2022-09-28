@@ -349,3 +349,33 @@ const updateListing = function(updatedListing) {
     });
 }
 exports.updateListing = updateListing;
+
+
+/**
+ * Updates a listing to indicate removal
+ * @param {Number} id
+ * @param {Boolean} isRemoved
+ * @return {Promise<{}>} A promise to the user.
+**/
+const changeListingRemovalStatus = function(id, isRemoved) {
+  console.log(`called listingIsRemoved`);
+  return pool
+    .query(`
+      UPDATE listings
+      SET is_removed = $2
+      WHERE listings.id = $1
+      RETURNING *;
+      `, [id, isRemoved]
+    )
+    .then((result) => {
+      if (result.rows) {
+        return Promise.resolve(result.rows);
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+exports.changeListingRemovalStatus = changeListingRemovalStatus;
