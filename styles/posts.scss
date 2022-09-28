@@ -35,6 +35,12 @@ header {
     width: 60%;
   }
 
+  #item-price {
+    display: flex;
+    align-items: center;
+    font-size: 2em;
+  }
+
   footer {
     @include main.button-styling;
 
