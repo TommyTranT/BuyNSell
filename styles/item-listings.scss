@@ -5,11 +5,18 @@
   justify-content: space-around;
   flex-wrap: wrap;
   padding: .5em;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 }
 
 .item-listing {
   padding: .5em;
-  border: solid;
+  background-color: main.$accent-color;
+  border-radius: 2px;
+  box-shadow: 3px 3px 2px rgb(71, 71, 71);
   margin: .5em;
   width: 250px;
   height: 400px;
@@ -48,4 +55,13 @@
   }
 }
 
+.item-listing:hover {
+  transform: translateY(-1px);
+  opacity: 0.8;
+}
+
+.item-listing:active {
+  transform: translateY(0);
+  opacity: 0.6;
+}
 
