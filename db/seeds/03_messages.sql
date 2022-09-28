@@ -7,3 +7,11 @@ INSERT INTO messages (sender_id, recipient_id, contents, listing_id)
 VALUES (1, 2, 'Fair, walked right into that one... Where you wanna meet?', 2);
 INSERT INTO messages (sender_id, recipient_id, contents, listing_id)
 VALUES (2, 1, 'Under the bridge downtown. See ya there!', 2);
+INSERT INTO messages (sender_id, recipient_id, contents, listing_id)
+VALUES (3, 1, 'I gotta have it', 3);
+INSERT INTO messages (sender_id, recipient_id, contents, listing_id)
+VALUES (1, 3, 'Do you have $$$?', 3);
+INSERT INTO messages (sender_id, recipient_id, contents, listing_id)
+VALUES (3, 1, 'I will literally pay anything', 3);
+INSERT INTO messages (sender_id, recipient_id, contents, listing_id)
+VALUES (1, 3, 'You know where to find me', 3);
