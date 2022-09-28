@@ -222,7 +222,7 @@ app.get("/new_listing", (req, res) => {
 });
 
 
-// POST - Take input from create listings page and input data into Obj
+// POST - Take input from create listings page and input into database
 app.post('/listings', (req, res) => {
 
   // req. logged in path block
@@ -419,6 +419,45 @@ app.post('/favorites', (req, res) => {
   if (!userID) {
     res.statusCode = 404;
     return res.send("Please Log in to create new listing.");
+  }
+})
+
+// GET - Go to an edit page: Variable being the listings ID
+app.get('/edit/:id', (req, res) => {
+
+  const id = req.params.id;
+
+  const {userID} = req.session;
+  const templateVars = {user: undefined};
+  if (userID) {
+    return databaseFn.getUserWithId(userID)
+    .then(dbUser => {
+      console.log(`returned user from Id:`, dbUser);
+      templateVars.user = dbUser;
+      console.log('logged in successfully as: ', dbUser.name)
+
+      // route logic here
+      return databaseFn.getListingWithId(id);
+    })
+    .then(listing => {
+        templateVars.title = listing.title;
+        templateVars.price = listing.price;
+        templateVars.description = listing.description;
+        templateVars.listing_id = listing.listing_id;
+        templateVars.owner_name = listing.owner_name;
+      // end of route logic
+      console.log(listing)
+      return res.render('edit_listing', templateVars);
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
+  }
+  /* end of required block */
+
+  if (!userID) {
+    res.redirect('/');
   }
 })
 

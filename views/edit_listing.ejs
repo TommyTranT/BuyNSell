@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Edit Listings</title>
+
+  <meta charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+  <!-- External CSS -->
+  <link rel="stylesheet" href="/vendor/border-box.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
+  <!-- App CSS -->
+  <link rel="stylesheet" href="/styles/main.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/nav.css" />
+  <link rel="stylesheet" href="/styles/forms.css" />
+
+</head>
+
+<body>
+  <%- include('partials/_navbar') %>
+  <main>
+    <div class="form-container">
+      <header>Edit Listing</header>
+      <form action="/listings" method="POST">
+        <div>
+          <label for="listing-title">Title:</label>
+          <input
+          id="listing-title"
+          type="text"
+          name="name"
+          value="<%= title %>"
+          />
+        </div>
+        <div>
+          <label for="listing-description">Item Description:</label>
+          <textarea
+            id="listing-description"
+            type="text"
+            name="description"
+            placeholder="Item description"></textarea>
+        </div>
+        <div id="input-price">
+          <label for="listing-price">Price:</label>
+          <input
+            id="listing-price"
+            type="number"
+            name="price">
+          </input>
+        </div>
+        <button type="submit">Post Ad</button>
+      </form>
+    </div>
+  </main>
+</body>
+
+</html>
