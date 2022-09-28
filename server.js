@@ -307,7 +307,7 @@ app.get('/listings', (req, res) => {
 
       }
       console.log(`formatted return listings for ejs view:`, templateVars.listings);
-      return res.render('listings2', templateVars);
+      return res.render('listings', templateVars);
     })
     .catch(e => {
       console.log(e);
