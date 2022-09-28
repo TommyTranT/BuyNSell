@@ -16,8 +16,7 @@
   <link rel="stylesheet" href="/styles/main.css" />
   <link rel="stylesheet" href="/styles/layout.css" />
   <link rel="stylesheet" href="/styles/nav.css" />
-  <link rel="stylesheet" href="/styles/messages.css" />
-
+  <link rel="stylesheet" href="/styles/posts.css" />
 </head>
 
 <body>
@@ -25,24 +24,24 @@
   <header class="page-header">Messages</header>
   <main>
     <section class="container-vertical">
-      <div class="message-thread">
-        <% for (message of messages) { %>
-        <div class="message-single">
+      <% for (message of messages) { %>
+      <div class="thread-container">
+        <div class="single-container">
           <header>
             <div><%= message.sender_name %></div>
             <div>Listing: <%= message.listing_title %></div>
             <div>DATE SENT</div>
           </header>
-          <div class="message-lower">
-            <div id="avatar">AVATAR</div>
+          <div class="container-lower">
+            <div id="image">AVATAR</div>
             <article>
               <%= message.contents %>
             </article>
             <div></div>
           </div>
         </div>
-        <% } %>
       </div>
+      <% } %>
     </section>
   </main>
 
