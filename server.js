@@ -459,7 +459,6 @@ app.get('/messages', (req, res) => {
 })
 
 
-
 // GET - Go to an edit page: Variable being the listings ID
 app.get('/edit/:id', (req, res) => {
 
@@ -519,13 +518,16 @@ app.post('/edit/:id', (req, res) => {
 
 
   // Need to edit new inputed values above to database in that same ID.
-  client.query('UPDATE listings SET title = $2 WHERE id = $1;',[id, newTitle])
-    .then(() => {
-      console.log('Listings has been Edited'); // -> Just updating so no output
-      client.end();
-    });
+  databaseFn.updateListing({id, title: newTitle, description: newDescription, price: newPrice})
+  .then(result => {
+    console.log(`listing updated! redirecting to listings...`);
+    res.redirect(`/listings`);
+  })
+  .catch(e => {
+    console.log(e);
+    res.send(e);
+  });
 
-  res.redirect(`/listings`);
 });
 
 app.listen(PORT, () => {
