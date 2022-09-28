@@ -222,7 +222,7 @@ app.get("/new_listing", (req, res) => {
 });
 
 
-// POST - Take input from create listings page and input data into Obj
+// POST - Take input from create listings page and input into database
 app.post('/listings', (req, res) => {
 
   // req. logged in path block
@@ -447,6 +447,76 @@ app.get('/messages', (req, res) => {
     })
   }
 })
+
+
+
+// GET - Go to an edit page: Variable being the listings ID
+app.get('/edit/:id', (req, res) => {
+
+  const id = req.params.id;
+
+  const {userID} = req.session;
+  const templateVars = {user: undefined};
+  if (userID) {
+    return databaseFn.getUserWithId(userID)
+    .then(dbUser => {
+      console.log(`returned user from Id:`, dbUser);
+      templateVars.user = dbUser;
+      console.log('logged in successfully as: ', dbUser.name)
+
+
+      // route logic here
+      return databaseFn.getListingWithId(id);
+    })
+    .then(listing => {
+        templateVars.title = listing.title;
+        templateVars.price = listing.price;
+        templateVars.description = listing.description;
+        templateVars.listing_id = listing.listing_id;
+        templateVars.owner_name = listing.owner_name;
+      // end of route logic
+      console.log(listing.description)
+      return res.render('edit_listing', templateVars);
+
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
+  }
+
+
+  /* end of required block */
+
+  if (!userID) {
+    res.redirect('/');
+  }
+})
+
+app.post('/edit/:id', (req, res) => {
+  // Shows listing based on listings.id
+  const id = req.params.id;
+
+  // Making new inputed values from HTML into variables
+  const newTitle = req.body.newTitle;
+  const newDescription = req.body.newDescription;
+  const newPrice = req.body.newPrice;
+
+  // Console.log was success, we are returning the right data
+  console.log(`new db entry`, newTitle, newDescription, newPrice)
+
+  // Need to delete listing from database where listings_id = req.params.id
+
+
+  // Need to edit new inputed values above to database in that same ID.
+  client.query('UPDATE listings SET title = $2 WHERE id = $1;',[id, newTitle])
+    .then(() => {
+      console.log('Listings has been Edited'); // -> Just updating so no output
+      client.end();
+    });
+
+  res.redirect(`/listings`);
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

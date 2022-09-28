@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>New Listings</title>
+  <title>Edit Listings</title>
 
   <meta charset="UTF-8" >
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
@@ -25,35 +25,41 @@
   <%- include('partials/_navbar') %>
   <main>
     <div class="form-container">
-      <header>Post New Listing</header>
-      <form action="/listings" method="POST">
+      <header>Edit Listing</header>
+
+      <form action="/edit/<%= listing_id %>" method="POST">
         <div>
           <label for="listing-title">Title:</label>
           <input
           id="listing-title"
           type="text"
-          name="name"
-          placeholder="Ad Title Here"
+          name="newTitle"
+          value="<%= title %>"
           />
         </div>
         <div>
           <label for="listing-description">Item Description:</label>
-          <textarea
-            id="listing-description"
-            type="text"
-            name="description"
-            placeholder="Item description"></textarea>
+
+          <!-- Input will show listings description -->
+          <input
+          id="listing-description"
+          type="text"
+          name="newDescription"
+          value="<%= description %>"></input>
+
         </div>
         <div id="input-price">
           <label for="listing-price">Price:</label>
           <input
             id="listing-price"
             type="number"
-            name="price">
+            name="newPrice"
+            value="<%= price %>">
           </input>
         </div>
-        <button type="submit">Post Ad</button>
+        <button type="submit">Edit Ad</button>
       </form>
+
     </div>
   </main>
 </body>
