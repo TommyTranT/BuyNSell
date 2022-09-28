@@ -99,6 +99,9 @@ app.get('/', (req, res) => {
     })
   }
   /* end of required block */
+
+  // if user isn't logged in, do the same
+  // needs to be repeated because above logic only happens in async callback
   databaseFn.getLimitListings(8)
         .then(listings => {
           templateVars.listings = listings;
@@ -381,11 +384,16 @@ app.get('/favorites', (req, res) => {
     .then(dbUser => {
       console.log(`returned user from Id:`, dbUser);
       templateVars.user = dbUser;
+      console.log('logged in successfully as: ', dbUser.name)
 
+      databaseFn.getFavoritesByOwnerID(userID)
+        .then(listings => {
+          templateVars.listings = listings;
+          console.log(`listings from fn:`, listings);
+          return res.render('favorites', templateVars);
+        })
       // route logic here
 
-      console.log('logged in successfully as: ', dbUser.name)
-      return res.render('favorites', templateVars);
     })
     .catch(e => {
       console.log(e);
@@ -394,7 +402,9 @@ app.get('/favorites', (req, res) => {
   }
   /* end of required block */
 
-  res.render('index', templateVars);
+
+  // redirects to home if not logged in
+  res.redirect('/');
 });
 
 app.post('/favorites', (req, res) => {

@@ -292,3 +292,36 @@ const getMessages = function(id) {
     });
 }
 exports.getMessages = getMessages;
+
+
+/**
+ * Get all favorites for a given user id
+ * @param {Number} id
+ * @return {Promise<{}>} A promise to the user.
+**/
+const getFavoritesByOwnerID = function(id) {
+  console.log(`called getFavoritesByOwnerID`);
+  return pool
+    .query(`
+      SELECT listings.id, title AS name, description, price, is_sold, is_removed, owner_id
+      FROM listings
+      JOIN favorites ON favorites.listing_id = listings.id
+      JOIN users ON favorites.user_id = users.id
+      WHERE users.id = $1
+      GROUP BY listings.id, users.name
+      ORDER BY listings.id DESC;
+      `, [id]
+    )
+    .then((result) => {
+      if (result.rows) {
+        console.log(`result rows:`, result.rows);
+        return Promise.resolve(result.rows);
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+exports.getFavoritesByOwnerID = getFavoritesByOwnerID;
