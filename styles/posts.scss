@@ -1,7 +1,7 @@
 @use 'main';
 
 .thread-container {
-  max-width: 800px;
+  max-width: 40em;
   padding: .5em;
 }
 
@@ -15,7 +15,7 @@ header {
 .single-container {
   border: solid;
   padding: .35em;
-
+  margin-bottom: .5em;
 
   .container-lower {
     display: flex;

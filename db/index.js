@@ -276,7 +276,6 @@ const getMessages = function(id) {
       `, [id]
     )
     .then((result) => {
-      console.log(result);
       if (result.rows) {
         return Promise.resolve(result.rows);
       } else {
