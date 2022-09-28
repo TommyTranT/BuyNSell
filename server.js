@@ -309,7 +309,7 @@ app.get('/listings', (req, res) => {
         }
 
       }
-      console.log(`formatted return listings for ejs view:`, templateVars.listings);
+      // console.log(`formatted return listings for ejs view:`, templateVars.listings);
       return res.render('listings', templateVars);
     })
     .catch(e => {
@@ -561,13 +561,29 @@ app.post('/listings/:ownerID/:listingsID', (req, res) => {
       res.send(e);
     })
   }
-
   if (!userID) {
     return res.send(`not logged in!`);
   }
-
 })
+
+
+// Delete listing
+app.post("/listings/delete", (req, res) => {
+  const listingId = req.body.listingKey;
+
+  databaseFn.changeListingRemovalStatus(listingId, true)
+  .then(result => {
+    console.log(`listing has been successfully removed`);
+  })
+  .catch(e => {
+    console.log(e);
+    res.send(e);
+  })
+
+  }
+);
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
-});
+})
