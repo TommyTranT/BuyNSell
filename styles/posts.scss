@@ -43,11 +43,14 @@ header {
 
   footer {
     @include main.button-styling;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
 
+    form {
+      display: inline;
+      width: fit-content;
+    }
     .status-flags {
       visibility: hidden;
       font-size: 1.25em;
