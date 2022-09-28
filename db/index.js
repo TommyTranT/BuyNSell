@@ -409,3 +409,31 @@ const changeListingSoldStatus = function(id, isSold) {
     });
 }
 exports.changeListingSoldStatus = changeListingSoldStatus;
+
+
+/**
+ * Add a new message to the database.
+ * @param {{sender_id: integer, recipient_id: integer, contents: string, listing_id: integer }} message
+ * @return {Promise<{}>} A promise to the user.
+**/
+const addMessage = function(message) {
+  console.log(`addMessage fn called...`);
+  return pool
+    .query(`
+      INSERT INTO messages (sender_id, recipient_id, contents, listing_id)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *
+      `, [message.sender_id, message.recipient_id, message.contents, message.listing_id]
+    )
+    .then((result) => {
+      if (result.rows[0]) {
+        return Promise.resolve(result.rows[0]);
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+exports.addMessage = addMessage;

@@ -506,6 +506,7 @@ app.get('/edit/:id', (req, res) => {
   }
 })
 
+// POST - Update the DB info for a given listing
 app.post('/edit/:id', (req, res) => {
   // Shows listing based on listings.id
   const id = req.params.id;
@@ -537,8 +538,34 @@ app.post('/edit/:id', (req, res) => {
 
 });
 
-app.post('/listings/:id', (req, res) => {
-  req.params
+// POST - Send/add a new message related to a given listing
+app.post('/listings/:ownerID/:listingsID', (req, res) => {
+  const id = req.params.ownerID;
+  const listingID = req.params.listingsID;
+  const {userID} = req.session;
+
+  const message = {
+    sender_id: userID,
+    recipient_id: id,
+    contents: req.body,
+    listing_id: listingID
+  }
+
+  if (userID) {
+    databaseFn.addMessage(message)
+    .then(res => {
+      console.log(`message added to database:`, res);
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
+  }
+
+  if (!userID) {
+    return res.send(`not logged in!`);
+  }
+
 })
 
 app.listen(PORT, () => {
