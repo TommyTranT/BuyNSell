@@ -462,6 +462,7 @@ app.get('/edit/:id', (req, res) => {
 })
 
 app.post('/edit/:id', (req, res) => {
+  // Shows listing based on listings.id
   const id = req.params.id;
 
   // Making new inputed values from HTML into variables
@@ -473,7 +474,14 @@ app.post('/edit/:id', (req, res) => {
   console.log(`my new title`, newTitle)
 
   // Need to delete listing from database where listings_id = req.params.id
-  // Need to add new inputed values above to database in that same ID.
+
+
+  // Need to edit new inputed values above to database in that same ID.
+  client.query('UPDATE listings SET title = $2 WHERE id = $1;',[id, newTitle])
+    .then(() => {
+      console.log('Listings has been Edited'); // -> Just updating so no output
+      client.end();
+    });
 
   res.redirect(`/listings`);
 });
