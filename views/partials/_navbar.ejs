@@ -13,9 +13,11 @@
     </div>
 
     <% if (user) { %>
-    <form method="POST" action="/logout">
-      <button type="submit">Logout</button>
-    </form>
+    <div>
+      <form method="POST" action="/logout">
+        <button type="submit">Logout</button>
+      </form>
+    </div>
     <% } else { %>
     <div>
       <form method="GET" action="/login">

@@ -51,7 +51,6 @@ const getUserWithEmail = function(email) {
       `, [email]
     )
     .then((result) => {
-      console.log(`fn getuserwithemail resolved, got result`, result.rows[0]); // tester delete
       if (result.rows[0]) {
         return Promise.resolve(result.rows[0]);
       } else {
@@ -162,7 +161,6 @@ const getListingsByOwnerId = function(id) {
     )
     .then((result) => {
       if (result.rows) {
-        console.log(`result rows:`, result.rows);
         return Promise.resolve(result.rows);
       } else {
         return null;
@@ -220,7 +218,6 @@ const getLimitListings = function(limit) {
     )
     .then((result) => {
       if (result.rows) {
-        console.log(`result rows:`, result.rows);
         return Promise.resolve(result.rows);
       } else {
         return null;
@@ -280,7 +277,6 @@ const getMessages = function(id) {
     .then((result) => {
       console.log(result);
       if (result.rows) {
-        console.log("messages: ", result.rows)
         return Promise.resolve(result.rows);
       } else {
         console.log("no messages!")
@@ -314,7 +310,6 @@ const getFavoritesByOwnerID = function(id) {
     )
     .then((result) => {
       if (result.rows) {
-        console.log(`result rows:`, result.rows);
         return Promise.resolve(result.rows);
       } else {
         return null;
@@ -325,3 +320,32 @@ const getFavoritesByOwnerID = function(id) {
     });
 }
 exports.getFavoritesByOwnerID = getFavoritesByOwnerID;
+
+
+/**
+ * Update a specific listing with new information
+ * @param {{id: integer, title: string, description: string, price: integer}} updatedListing
+ * @return {Promise<{}>} A promise to the user.
+**/
+const updateListing = function(updatedListing) {
+  console.log(`called getFavoritesByOwnerID`);
+  return pool
+    .query(`
+      UPDATE listings
+      SET title = $1, description = $2, price = $3
+      WHERE listings.id = $4
+      RETURNING *;
+      `, [updatedListing.title, updatedListing.description, updatedListing.price, updatedListing.id]
+    )
+    .then((result) => {
+      if (result.rows) {
+        return Promise.resolve(result.rows);
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+exports.updateListing = updateListing;

@@ -1,0 +1,67 @@
+@use 'main';
+
+.thread-container {
+  max-width: 800px;
+  padding: .5em;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  margin: .25em 0;
+  font-size: 1.2em;
+}
+
+.single-container {
+  border: solid;
+  padding: .35em;
+
+
+  .container-lower {
+    display: flex;
+    justify-content: flex-start
+  }
+
+  #image {
+    height: 100px;
+    width: 100px;
+    border-style: dashed;
+  }
+
+  article {
+    padding: .5em;
+    font-size: .8em;
+    word-wrap: break-word;
+    width: 60%;
+  }
+
+  #item-price {
+    display: flex;
+    align-items: center;
+    font-size: 2em;
+  }
+
+  footer {
+    @include main.button-styling;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .status-flags {
+      visibility: hidden;
+      font-size: 1.25em;
+      font-weight: bold;
+      color: red;
+      opacity: 0.9;
+    }
+
+    button {
+      font-size: .75em;
+      background-color: main.$primary-color;
+      color: white;
+    }
+
+  }
+
+}
