@@ -2,6 +2,8 @@
 INSERT INTO favorites (user_id, listing_id)
 VALUES (1, 2);
 INSERT INTO favorites (user_id, listing_id)
-VALUES (3, 1);
+VALUES (1, 3);
 INSERT INTO favorites (user_id, listing_id)
-VALUES (2, 3);
+VALUES (3, 2);
+INSERT INTO favorites (user_id, listing_id)
+VALUES (2, 1);

@@ -4,6 +4,9 @@ require('dotenv').config();
 // import database query functions
 const databaseFn = require('./db/index.js');
 
+//import helper functions
+const { getMessagesByThread } = require('./public/helpers')
+
 // Web server config
 const PORT = process.env.PORT || 8080;
 const express = require('express');
@@ -445,8 +448,8 @@ app.get('/messages', (req, res) => {
 
       databaseFn.getMessages(userID)
         .then(messages => {
-          templateVars.messages = messages;
-          console.log(`templateVars:`, templateVars);
+          const messageThreads = getMessagesByThread(messages);
+          templateVars.messages = messageThreads;
           return res.render('messages', templateVars);
         })
 

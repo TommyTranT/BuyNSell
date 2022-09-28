@@ -265,17 +265,17 @@ exports.addFavorite = addFavorite;
 const getMessages = function(id) {
   return pool
     .query(`
-      SELECT users.name as sender_name, listings.title as listing_title, contents
+      SELECT listing_id, users.name as sender_name, listings.title as listing_title, contents
       FROM messages
       JOIN users on users.id = sender_id
       JOIN listings on listings.id = listing_id
       WHERE sender_id = $1
       OR recipient_id = $1
-      ORDER BY messages.id
+      GROUP BY listings.id, users.name, messages.contents, messages.id
+      ORDER BY messages.id;
       `, [id]
     )
     .then((result) => {
-      console.log(result);
       if (result.rows) {
         return Promise.resolve(result.rows);
       } else {
@@ -358,7 +358,7 @@ exports.updateListing = updateListing;
  * @return {Promise<{}>} A promise to the user.
 **/
 const changeListingRemovalStatus = function(id, isRemoved) {
-  console.log(`called listingIsRemoved`);
+  console.log(`called changeListingRemovalStatus`);
   return pool
     .query(`
       UPDATE listings
@@ -379,3 +379,33 @@ const changeListingRemovalStatus = function(id, isRemoved) {
     });
 }
 exports.changeListingRemovalStatus = changeListingRemovalStatus;
+
+
+/**
+ * Updates a listing to indicate sold status
+ * @param {Number} id
+ * @param {Boolean} isSold
+ * @return {Promise<{}>} A promise to the user.
+**/
+const changeListingSoldStatus = function(id, isSold) {
+  console.log(`called changeListingSoldStatus`);
+  return pool
+    .query(`
+      UPDATE listings
+      SET is_sold = $2
+      WHERE listings.id = $1
+      RETURNING *;
+      `, [id, isSold]
+    )
+    .then((result) => {
+      if (result.rows) {
+        return Promise.resolve(result.rows);
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+exports.changeListingSoldStatus = changeListingSoldStatus;
