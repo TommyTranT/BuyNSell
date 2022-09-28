@@ -259,3 +259,36 @@ const addFavorite = function(favorite) {
     });
 }
 exports.addFavorite = addFavorite;
+
+/**
+ * Get all messages from the db given user id (logged in)
+ * @param {Number} id
+ * @return {Promise<{}>} A promise to the user.
+**/
+const getMessages = function(id) {
+  return pool
+    .query(`
+      SELECT users.name as sender_name, listings.title as listing_title, contents
+      FROM messages
+      JOIN users on users.id = sender_id
+      JOIN listings on listings.id = listing_id
+      WHERE sender_id = $1
+      OR recipient_id = $1
+      ORDER BY messages.id
+      `, [id]
+    )
+    .then((result) => {
+      console.log(result);
+      if (result.rows) {
+        console.log("messages: ", result.rows)
+        return Promise.resolve(result.rows);
+      } else {
+        console.log("no messages!")
+        return null;
+      }
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+exports.getMessages = getMessages;

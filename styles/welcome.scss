@@ -1,17 +1,14 @@
 @use 'main';
 
 #welcome-banner {
+  @include main.page-header;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 75%;
   max-width: 1200px;
   margin: 50px auto;
   height: 125px;
-  font-size: 3em;
-  border-radius: 2px;
-  box-shadow: 3px 3px 2px rgb(71, 71, 71);
-  background-color: main.$accent-color;
 
   h4 {
     font-weight: normal;

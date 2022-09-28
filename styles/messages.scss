@@ -1,0 +1,34 @@
+.message-thread {
+  max-width: 1000px;
+  padding: .5em;
+}
+
+.message-single {
+  border: solid;
+  padding: .35em;
+  margin-bottom: 10px;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    margin: .25em 0;
+  }
+
+  .message-lower {
+    display: flex;
+    justify-content: flex-start
+  }
+
+  #avatar {
+    height: 100px;
+    width: 100px;
+    border-style: dashed;
+  }
+
+  article {
+    padding: .5em;
+    font-size: .8em;
+    word-wrap: break-word;
+    width: 60%;
+  }
+}

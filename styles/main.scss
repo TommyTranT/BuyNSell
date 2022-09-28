@@ -31,6 +31,17 @@ $text-color: black;
 
 }
 
+@mixin page-header {
+  @include reset;
+
+  font-size: 3em;
+  padding: .75em 1em;
+  width: fit-content;
+  background-color: $accent-color;
+  box-shadow: 3px 3px 2px rgb(71, 71, 71);
+  border-radius: 2px;
+}
+
 body {
   background: $background-color;
   font-family: $default-font;
@@ -42,3 +53,10 @@ main {
   margin: 0 auto;
   font-size: 1.5em;
 }
+
+.page-header {
+  @include page-header;
+  margin: 1em;
+}
+
+

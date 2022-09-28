@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Home Page</title>
+
+  <meta charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+  <!-- External CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
+  <!-- App CSS -->
+  <link rel="stylesheet" href="/styles/main.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/nav.css" />
+  <link rel="stylesheet" href="/styles/messages.css" />
+
+</head>
+
+<body>
+  <%- include('partials/_navbar') %>
+  <header class="page-header">Messages</header>
+  <main>
+    <section class="container-vertical">
+      <div class="message-thread">
+        <% for (message of messages) { %>
+        <div class="message-single">
+          <header>
+            <div><%= message.sender_name %></div>
+            <div>Listing: <%= message.listing_title %></div>
+            <div>DATE SENT</div>
+          </header>
+          <div class="message-lower">
+            <div id="avatar">AVATAR</div>
+            <article>
+              <%= message.contents %>
+            </article>
+            <div></div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </section>
+  </main>
+
+</body>
+
+</html>

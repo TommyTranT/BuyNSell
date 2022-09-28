@@ -422,6 +422,32 @@ app.post('/favorites', (req, res) => {
   }
 })
 
+// GET - show messages for logged in user
+app.get('/messages', (req, res) => {
+  const {userID} = req.session;
+  const templateVars = {user: undefined};
+  if (userID) {
+    return databaseFn.getUserWithId(userID)
+    .then(dbUser => {
+      console.log(`returned user from Id:`, dbUser);
+      templateVars.user = dbUser;
+      console.log('logged in successfully as: ', dbUser.name)
+
+      databaseFn.getMessages(userID)
+        .then(messages => {
+          templateVars.messages = messages;
+          console.log(`templateVars:`, templateVars);
+          return res.render('messages', templateVars);
+        })
+
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
+  }
+})
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
