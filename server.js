@@ -446,7 +446,7 @@ app.get('/edit/:id', (req, res) => {
         templateVars.listing_id = listing.listing_id;
         templateVars.owner_name = listing.owner_name;
       // end of route logic
-      console.log(listing)
+      console.log(listing.description)
       return res.render('edit_listing', templateVars);
     })
     .catch(e => {
@@ -460,6 +460,23 @@ app.get('/edit/:id', (req, res) => {
     res.redirect('/');
   }
 })
+
+app.post('/edit/:id', (req, res) => {
+  const id = req.params.id;
+
+  // Making new inputed values from HTML into variables
+  const newTitle = req.body.newTitle;
+  const newDescription = req.body.newDescription;
+  const newPrice = req.body.newPrice;
+
+  // Console.log was success, we are returning the right data
+  console.log(`my new title`, newTitle)
+
+  // Need to delete listing from database where listings_id = req.params.id
+  // Need to add new inputed values above to database in that same ID.
+
+  res.redirect(`/listings`);
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

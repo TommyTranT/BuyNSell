@@ -47,6 +47,9 @@
           <form action = "/listings/<%= listings[listingKeys].id %>" method="GET">
             <button type="submit">View</button>
           </form>
+          <form action = "/edit/<%= listings[listingKeys].id %>" method="GET">
+            <button type="submit">Edit</button>
+          </form>
           <form>
             <button type="submit">Mark as Sold</button>
           </form>
