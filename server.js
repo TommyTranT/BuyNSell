@@ -361,6 +361,7 @@ app.get('/listings/:id', (req, res) => {
         templateVars.description = listing.description;
         templateVars.listing_id = listing.listing_id;
         templateVars.owner_name = listing.owner_name;
+        templateVars.owner_id = listing.owner_id;
       // end of route logic
 
       return res.render('single_listing', templateVars);
@@ -535,6 +536,10 @@ app.post('/edit/:id', (req, res) => {
 
 
 });
+
+app.post('/listings/:id', (req, res) => {
+  req.params
+})
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
