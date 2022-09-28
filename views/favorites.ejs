@@ -22,13 +22,8 @@
 
 <body>
   <%- include('partials/_navbar') %>
-  <header id="welcome-banner">
-    <% if (user) { %>
-      <h4>Favorited Listings</h4>
-    <% } %>
-  </header>
+  <header class="page-header">Favorites</header>
   <main>
-    <h4>ITEMS</h4>
     <!--LISTINGS RENDERED HERE-->
     <div class="main-container">
       <% for (let listing of listings) { %>
