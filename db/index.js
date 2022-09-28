@@ -265,13 +265,15 @@ exports.addFavorite = addFavorite;
 const getMessages = function(id) {
   return pool
     .query(`
-      SELECT users.name as sender_name, listings.title as listing_title, contents
+      SELECT listing_id, users.name as sender_name, listings.title as listing_title, contents
       FROM messages
       JOIN users on users.id = sender_id
       JOIN listings on listings.id = listing_id
       WHERE sender_id = $1
       OR recipient_id = $1
+      GROUP BY listings.id, users.name, messages.contents, messages.id
       ORDER BY messages.id
+      RETURNING *;
       `, [id]
     )
     .then((result) => {
