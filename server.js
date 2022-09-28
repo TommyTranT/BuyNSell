@@ -509,11 +509,11 @@ app.post('/edit/:id', (req, res) => {
 
 
   // Need to edit new inputed values above to database in that same ID.
-  client.query('UPDATE listings SET title = $2 WHERE id = $1;',[id, newTitle])
-    .then(() => {
-      console.log('Listings has been Edited'); // -> Just updating so no output
-      client.end();
-    });
+  // client.query('UPDATE listings SET title = $2 WHERE id = $1;',[id, newTitle])
+  //   .then(() => {
+  //     console.log('Listings has been Edited'); // -> Just updating so no output
+  //     client.end();
+  //   });
 
   res.redirect(`/listings`);
 });
