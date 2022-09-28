@@ -1,0 +1,28 @@
+@use 'main';
+
+.thread-dropdown {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  max-width: 40em;
+  padding: .5em;
+  background-color: main.$accent-color;
+  margin-bottom: 10px;
+  box-shadow: 3px 3px 2px rgb(71, 71, 71);
+  border-radius: 2px;
+}
+
+.thread-dropdown:hover {
+  transform: translateY(-1px);
+  opacity: 0.8;
+}
+
+.thread-dropdown:active {
+  transform: translateY(0);
+  opacity: 0.6;
+}
+
+.message-thread {
+  display: none;
+}
