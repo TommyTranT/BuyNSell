@@ -440,9 +440,7 @@ app.get('/messages', (req, res) => {
   if (userID) {
     return databaseFn.getUserWithId(userID)
     .then(dbUser => {
-      console.log(`returned user from Id:`, dbUser);
       templateVars.user = dbUser;
-      console.log('logged in successfully as: ', dbUser.name)
 
       databaseFn.getMessages(userID)
         .then(messages => {

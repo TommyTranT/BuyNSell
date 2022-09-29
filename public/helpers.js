@@ -12,6 +12,7 @@ const getMessagesByThread = function(messages) {
     let thread = messages.filter(message => message.listing_id === id);
     messageThreads.push(thread);
   })
+  console.log(`messageThreads is:`, messageThreads);
   return messageThreads;
 };
 
