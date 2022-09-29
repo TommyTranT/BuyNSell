@@ -450,7 +450,7 @@ const getFilteredListings = function(limit, filters) {
   console.log(`called getFilteredListings`);
   return pool
     .query(`
-      SELECT listings.id, title AS name, description, price, is_sold, is_removed, owner_id, users.name AS owner_name
+      SELECT listings.id, title AS name, description, price, is_sold, is_removed, owner_id, users.name AS owner_name, time_created
       FROM listings
       JOIN users ON owner_id = users.id
       WHERE is_removed = false AND price >= $2 AND price <= $3
