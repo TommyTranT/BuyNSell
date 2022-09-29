@@ -301,6 +301,7 @@ app.get('/myListings', (req, res) => {
         }
 
       }
+      console.log(`formatted return listings for ejs view:`, templateVars.listings);
       return res.render('myListings', templateVars);
     })
     .catch(e => {
@@ -540,7 +541,7 @@ app.post('/listings/:ownerID/:listingsID', (req, res) => {
   const message = {
     sender_id: userID,
     recipient_id: id,
-    contents: req.body,
+    contents: Object.keys(req.body)[0],
     listing_id: listingID
   }
 
