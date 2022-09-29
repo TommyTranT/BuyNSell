@@ -212,6 +212,7 @@ const getLimitListings = function(limit) {
       SELECT listings.id, title AS name, description, price, is_sold, is_removed, owner_id, users.name AS owner_name
       FROM listings
       JOIN users ON owner_id = users.id
+      WHERE is_removed = false
       ORDER BY listings.id DESC
       LIMIT $1;
       `, [limit]
