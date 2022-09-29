@@ -26,3 +26,25 @@
 .message-thread {
   display: none;
 }
+
+.reply-form {
+  @include main.button-styling;
+
+  max-width: 41em;
+
+  textarea {
+    height: 3em;
+    resize: none;
+    width: 100%;
+    font-size: .85em;
+  }
+
+  button {
+    display: block;
+    font-size: .75em;
+    background-color: main.$primary-color;
+    margin-left: auto;
+    margin-bottom: 10px;
+    color: white;
+  }
+}

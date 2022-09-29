@@ -50,6 +50,7 @@
             <div><b>Add to Favorites</b></div>
             <form action="/"  <i class="fa-solid fa-heart add-favorite"></i>
           </div>
+          <div id="favorite-added">Added to favorites!</div>
         </div>
       </div>
       <div class="item-container">
@@ -61,13 +62,13 @@
           </button>
         </div>
         <div class="contact-seller-container" id="write-message">
-          <form action="/listings/<%= owner_id %>/<%= listing_id %>" method="POST" id="post-message">
             <textarea
             placeholder="your message here"
             ></textarea>
-            <button type="submit" id="send-message" for="post-message">Send</button>
-          </form>
+            <button type="submit" id="send-message">Send</button>
+            <div class="hidden-values"><%= owner_id %><%= listing_id %></div>
           </div>
+          <div id="message-sent">Message sent!</div>
       </div>
 
     </div>
