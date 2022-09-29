@@ -17,6 +17,7 @@ $(document).ready(function() {
     }
   });
 
+
   $(".add-favorite").click(function(){
     //display confirmation message
     writeMessage.slideUp({duration: 500});
