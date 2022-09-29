@@ -49,10 +49,27 @@
     padding: .5em;
     height: 150px;
 
+    @keyframes grow-heart {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(2);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
     .add-favorite {
       font-size: 2em;
       color: main.$primary-color;
       transition: opacity 0.1s;
+      animation-name: grow-heart;
+      animation-duration: 1.2s;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: 1;
+      animation-play-state: paused;
     }
 
     .add-favorite:hover {
@@ -114,4 +131,11 @@
     float: right;
   }
 
+}
+
+#message-sent, #favorite-added {
+  display:none;
+  color: green;
+  width: fit-content;
+  margin: 0 auto;
 }

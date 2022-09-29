@@ -10,7 +10,7 @@ const getMessagesByThread = function(messages) {
   });
   listings.forEach((id) => {
     let thread = messages.filter(message => message.listing_id === id);
-    messageThreads.push(thread);
+    messageThreads.push(thread.reverse());
   })
   return messageThreads;
 };

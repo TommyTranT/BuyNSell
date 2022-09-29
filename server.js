@@ -306,13 +306,8 @@ app.get('/myListings', (req, res) => {
         }
 
       }
-<<<<<<< HEAD
-      // console.log(`formatted return listings for ejs view:`, templateVars.listings);
-      return res.render('listings', templateVars);
-=======
       console.log(`formatted return listings for ejs view:`, templateVars.listings);
       return res.render('myListings', templateVars);
->>>>>>> fix/login-redirects
     })
     .catch(e => {
       console.log(e);
@@ -552,7 +547,7 @@ app.post('/listings/:ownerID/:listingsID', (req, res) => {
   const message = {
     sender_id: userID,
     recipient_id: id,
-    contents: req.body,
+    contents: Object.keys(req.body)[0],
     listing_id: listingID
   }
 
