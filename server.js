@@ -575,14 +575,13 @@ app.post("/delete", (req, res) => {
   databaseFn.changeListingRemovalStatus(listingId, true)
   .then(result => {
     console.log(`listing has been successfully removed`);
+    document.reload();
   })
   .catch(e => {
-    console.log(e);
+    // console.log(e);
     res.send(e);
   })
-
-  }
-);
+});
 
 
 

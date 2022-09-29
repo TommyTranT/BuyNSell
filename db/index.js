@@ -156,7 +156,7 @@ const getListingsByOwnerId = function(id) {
       SELECT listings.id, title AS name, description, price, is_sold, is_removed, owner_id, users.name AS owner_name
       FROM listings
       JOIN users ON owner_id = users.id
-      WHERE owner_id = $1;
+      WHERE owner_id = $1 AND is_removed = false;
       `, [id]
     )
     .then((result) => {

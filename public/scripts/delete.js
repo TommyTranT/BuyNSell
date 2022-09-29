@@ -6,31 +6,13 @@ $(document).ready(function() {
     // Returns listing id value
     const listingKey = $(this).next()[0].innerHTML;
 
-
-
     console.log('DELETE THIS KEY', listingKey)
-
-
-    // $.post('/listings/delete', {listingKey}, (response) => {
-    //   console.log("AJAX post went through");
-    // })
 
     $.post('/delete', {listingKey}, (response) => {
       console.log("AJAX post went through");
+      console.log('response:', response);
+      location.reload();
     })
-
-  //   $.ajax('/delete', {
-  //     type: 'POST',
-  //     data: { listingKey },
-  //     success: function (res) {
-  //         console.log('ajax successful!')
-  //     },
-  //     error: function (err) {
-  //         console.log(err);
-  //     }
-  // });
-
-
 
   });
 });// END of Doc Ready
