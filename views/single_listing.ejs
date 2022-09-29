@@ -30,8 +30,10 @@
 <body>
   <%- include('partials/_navbar') %>
   <main>
+    <% if (user) { %>
     <div id="listing_id"><%= listing_id %></div>
     <div id="user_id"><%= user.id %></div>
+    <% } %>
     <div class="listing-container">
       <div class="item-container">
         <div class="item-listing">
@@ -46,26 +48,26 @@
           </footer>
           <div class="favorites">
             <div><b>Add to Favorites</b></div>
-            <i class="fa-solid fa-heart add-favorite"></i>
+            <form action="/"  <i class="fa-solid fa-heart add-favorite"></i>
           </div>
         </div>
       </div>
       <div class="item-container">
         <div class="contact-seller-container">
-          <div class="seller-avatar">AVATAR</div>
+          <div class="avatar"><%= owner_name[0] %></div>
           <header><%= owner_name %></header>
           <button id="message-dropdown">
             Contact Seller
           </button>
         </div>
-        <form action="/listings/:id" method="POST">
         <div class="contact-seller-container" id="write-message">
+          <form action="/listings/<%= owner_id %>/<%= listing_id %>" method="POST" id="post-message">
             <textarea
             placeholder="your message here"
             ></textarea>
-            <button type="submit" id="send-message">Send</button>
+            <button type="submit" id="send-message" for="post-message">Send</button>
+          </form>
           </div>
-        </form>
       </div>
 
     </div>

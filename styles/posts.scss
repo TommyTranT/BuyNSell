@@ -22,10 +22,8 @@ header {
     justify-content: flex-start
   }
 
-  #image {
-    height: 100px;
-    width: 100px;
-    border-style: dashed;
+  .avatar {
+    font-size: 1.5em;
   }
 
   article {
