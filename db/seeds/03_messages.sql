@@ -18,19 +18,6 @@ INSERT INTO messages (sender_id, recipient_id, contents, listing_id)
 VALUES (3, 1, 'You know where to find me', 3);
 
 INSERT INTO messages (sender_id, recipient_id, contents, listing_id)
-VALUES (3, 2, 'Thats a pretty sweet ride! Are you firm on price?', 2);
-INSERT INTO messages (sender_id, recipient_id, contents, listing_id)
-VALUES (2, 3, 'Actually, Ive already received some interest. Trade pending.', 2);
-INSERT INTO messages (sender_id, recipient_id, contents, listing_id)
-VALUES (3, 2, 'Not from that Tommy guy?', 2);
-INSERT INTO messages (sender_id, recipient_id, contents, listing_id)
-VALUES (2, 3, 'Howd you know?', 2);
-INSERT INTO messages (sender_id, recipient_id, contents, listing_id)
-VALUES (3, 2, 'Theres only like 3 users on this website...', 2);
-INSERT INTO messages (sender_id, recipient_id, contents, listing_id)
-VALUES (2, 3, 'Oh true.', 2);
-
-INSERT INTO messages (sender_id, recipient_id, contents, listing_id)
 VALUES (2, 1, 'Now that you bought my car, I need a ride. I like ur truck', 1);
 INSERT INTO messages (sender_id, recipient_id, contents, listing_id)
 VALUES (1, 2, 'Wow, and after overcharging me for the car?', 1);
