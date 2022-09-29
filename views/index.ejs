@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="/styles/welcome.css" />
   <link rel="stylesheet" href="/styles/item-listings.css" />
 
+
 </head>
 
 <body>
@@ -32,6 +33,14 @@
   </header>
   <main>
     <h4>FEATURED CONTENT</h4>
+    <!-- start of filter  -->
+    <form id="price-filter" action="/filtered" method="post">
+      <input name="minPrice" type="text" placeholder="min. price" id="filter-min-price"></input>
+      <input name="maxPrice" type="text" placeholder="max. price" id="filter-max-price"></input>
+      <button id="filter-submit">filter listings</button>
+    </form>
+    <!-- end of filter dropdown -->
+
     <!--LISTINGS RENDERED HERE-->
     <div class="main-container">
       <% for (let listing of listings) { %>

@@ -438,3 +438,35 @@ const addMessage = function(message) {
     });
 }
 exports.addMessage = addMessage;
+
+
+/**
+ * Get all listings from the db with limit option
+ * @param {Number} limit
+ * @param {{minPrice: integer, maxPrice: integer}} filters
+ * @return {Promise<{}>} A promise to the user.
+**/
+const getFilteredListings = function(limit, filters) {
+  console.log(`called getFilteredListings`);
+  return pool
+    .query(`
+      SELECT listings.id, title AS name, description, price, is_sold, is_removed, owner_id, users.name AS owner_name
+      FROM listings
+      JOIN users ON owner_id = users.id
+      WHERE is_removed = false AND price >= $2 AND price <= $3
+      ORDER BY listings.id DESC
+      LIMIT $1;
+      `, [limit, filters.minPrice, filters.maxPrice]
+    )
+    .then((result) => {
+      if (result.rows) {
+        return Promise.resolve(result.rows);
+      } else {
+        return null;
+      }
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
+exports.getFilteredListings = getFilteredListings;

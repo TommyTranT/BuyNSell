@@ -83,14 +83,11 @@ app.get('/', (req, res) => {
   if (userID) {
     return databaseFn.getUserWithId(userID)
     .then(dbUser => {
-      console.log(`returned user from Id:`, dbUser);
       templateVars.user = dbUser;
-      console.log('logged in successfully as: ', dbUser.name)
 
       databaseFn.getLimitListings(8)
         .then(listings => {
           templateVars.listings = listings;
-          console.log(`listings from fn:`, listings);
           return res.render('index', templateVars);
         })
       // route logic here
@@ -237,7 +234,7 @@ app.post('/listings', (req, res) => {
     .then(dbUser => {
       console.log(`returned user from Id:`, dbUser);
       console.log('logged in successfully as: ', dbUser.name)
-
+      console.log(`req.body is:`, req.body);
       // tommy's route logic
       const ownerId = dbUser.id;
 
@@ -598,6 +595,53 @@ app.post("/mark_sold", (req, res) => {
 });
 
 
+app.post('/filtered', (req, res) => {
+  const minPrice = req.body.minPrice;
+  const maxPrice = req.body.maxPrice;
+
+  res.redirect(`/filtered/${minPrice}/${maxPrice}`)
+})
+
+app.get('/filtered/:min/:max', (req, res) => {
+  const {userID} = req.session;
+  const templateVars = {user: undefined};
+  if (userID) {
+    return databaseFn.getUserWithId(userID)
+    .then(dbUser => {
+      templateVars.user = dbUser;
+
+      console.log(`req.params are:`, req.params);
+      const filters = {minPrice: req.params.min, maxPrice: req.params.max};
+      console.log(`filters are:`, filters);
+
+      databaseFn.getFilteredListings(8, filters)
+        .then(listings => {
+          templateVars.listings = listings;
+          console.log(`filtered listings from fn:`, listings);
+          return res.render('index', templateVars);
+        })
+      // route logic here
+
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
+  }
+  /* end of required block */
+
+  // if user isn't logged in, do the same
+  // needs to be repeated because above logic only happens in async callback
+  databaseFn.getFilteredListings(8, filters)
+        .then(listings => {
+          templateVars.listings = listings;
+          return res.render('index', templateVars);
+        })
+        .catch(e => {
+          console.log(e);
+          res.send(e);
+        })
+})
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
