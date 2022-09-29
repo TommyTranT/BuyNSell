@@ -220,11 +220,9 @@ app.get("/new_listing", (req, res) => {
 
   // Checks if user is logged in
   if (!userID) {
-    res.statusCode = 404;
-    return res.send("Please Log in to create new listing.");
+    res.redirect('/login');
   }
 
-  res.render("new_listing", templateVars);
 });
 
 
@@ -253,7 +251,7 @@ app.post('/listings', (req, res) => {
     })
     .then(result => {
 
-      return res.redirect('listings');
+      return res.redirect('myListings');
     })
     .catch(e => {
       console.log(e);
@@ -263,12 +261,11 @@ app.post('/listings', (req, res) => {
   // end of req. logged in path block
 
 
-  res.redirect(`/listings`)
-  // res.redirect(`/listings/${id}`)
+  res.redirect(`/myListings`)
 })
 
 // GET - View all listings IF you are the owner
-app.get('/listings', (req, res) => {
+app.get('/myListings', (req, res) => {
 
   // req. logged in path block
   const {userID} = req.session;
@@ -310,7 +307,7 @@ app.get('/listings', (req, res) => {
 
       }
       console.log(`formatted return listings for ejs view:`, templateVars.listings);
-      return res.render('listings', templateVars);
+      return res.render('myListings', templateVars);
     })
     .catch(e => {
       console.log(e);
@@ -321,20 +318,8 @@ app.get('/listings', (req, res) => {
 
   // Checks if user is logged in
   if (!userID) {
-    res.statusCode = 404;
-    return res.send("Please Log in to create new listing.");
+    res.redirect('/login');
   }
-
-  // let filteredDatabase = {}
-  // for(let keys in listings) {
-  //   let value = listings[keys]
-  //   if(value.owner_id === users[userID].id || value.userID === null) { // -> should filter the url from the users Id
-  //     filteredDatabase[keys] = value;
-  //   }
-  // }
-
-
-  // res.render('listings', templateVars)
 })
 
 // GET - Show individual listings
@@ -374,7 +359,17 @@ app.get('/listings/:id', (req, res) => {
   /* end of required block */
 
   if (!userID) {
-    res.redirect('/');
+    return databaseFn.getListingWithId(id)
+    .then(listing => {
+      templateVars.title = listing.title;
+      templateVars.price = listing.price;
+      templateVars.description = listing.description;
+      templateVars.listing_id = listing.listing_id;
+      templateVars.owner_name = listing.owner_name;
+      templateVars.owner_id = listing.owner_id;
+    // end of route logic
+    return res.render('single_listing', templateVars);
+    });
   }
 })
 
@@ -407,8 +402,10 @@ app.get('/favorites', (req, res) => {
   /* end of required block */
 
 
-  // redirects to home if not logged in
-  res.redirect('/');
+  // redirects to login if not logged in
+  if (!userID) {
+    res.redirect('/login');
+  }
 });
 
 app.post('/favorites', (req, res) => {
@@ -460,6 +457,9 @@ app.get('/messages', (req, res) => {
       res.send(e);
     })
   }
+  if (!userID) {
+    res.redirect('/login');
+  }
 })
 
 
@@ -502,7 +502,7 @@ app.get('/edit/:id', (req, res) => {
   /* end of required block */
 
   if (!userID) {
-    res.redirect('/');
+    res.redirect('/login');
   }
 })
 
