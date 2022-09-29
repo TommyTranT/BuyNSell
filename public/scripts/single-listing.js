@@ -7,11 +7,7 @@ $(document).ready(function() {
   //message seller dropdown
   $('#message-dropdown').click(function(event) {
     event.preventDefault();
-<<<<<<< HEAD
     const writeMessage = $('#write-message');
-=======
-    //const error = $('#error-banner');
->>>>>>> feature/send-message
     const displayStatus = writeMessage.css('display');
     if (displayStatus === 'none') {
       confirmSend.css('display', 'none');
@@ -21,10 +17,6 @@ $(document).ready(function() {
     }
   });
 
-<<<<<<< HEAD
-  $(".add-favorite").click(function() {
-=======
-
   $(".add-favorite").click(function(){
     //display confirmation message
     writeMessage.slideUp({duration: 500});
@@ -32,15 +24,11 @@ $(document).ready(function() {
     $(this).css('animation-play-state', 'running');
 
     // Gets key of the user
->>>>>>> feature/send-message
     const user_id = $("#user_id")[0].innerHTML;
     const listing_id = $("#listing_id")[0].innerHTML;
-<<<<<<< HEAD
-=======
 
 
     console.log(user_id, listing_id)
->>>>>>> feature/send-message
     const favoriteKeys = {user_id, listing_id};
 
     $.post('/favorites', favoriteKeys, (response) => {
@@ -49,8 +37,6 @@ $(document).ready(function() {
 
   });
 
-<<<<<<< HEAD
-=======
   $("#send-message").click(function(event){
     event.preventDefault();
     const hiddenValues = $(this).next()[0].innerHTML;
@@ -66,6 +52,5 @@ $(document).ready(function() {
     })
 
   });
->>>>>>> feature/send-message
 
 });
