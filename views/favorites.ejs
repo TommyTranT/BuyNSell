@@ -36,6 +36,9 @@
             </article>
             <footer>
               <div class="item-date">DATE POSTED</div>
+              <% if (listing.is_sold) { %>
+                <div style="color:red">SOLD!</div>
+              <% } %>
               <div class="item-price">$<%= listing.price %></div>
             </footer>
           </div>
