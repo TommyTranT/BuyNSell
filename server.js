@@ -274,9 +274,7 @@ app.get('/myListings', (req, res) => {
   if (userID) {
     return databaseFn.getUserWithId(userID)
     .then(dbUser => {
-      console.log(`returned user from Id:`, dbUser);
       templateVars.user = dbUser;
-      console.log('logged in successfully as: ', dbUser.name)
 
       let filteredDatabase = {}
       for(let keys in listings) {
@@ -289,7 +287,6 @@ app.get('/myListings', (req, res) => {
       return databaseFn.getListingsByOwnerId(dbUser.id)
     })
     .then(listings => {
-      console.log(`return value of promise/result.rows:`, listings);
       // console.log('filtered db:', filteredDatabase)
       templateVars['listings'] = {};
       for (let listing of listings) {
@@ -306,7 +303,6 @@ app.get('/myListings', (req, res) => {
         }
 
       }
-      console.log(`formatted return listings for ejs view:`, templateVars.listings);
       return res.render('myListings', templateVars);
     })
     .catch(e => {
@@ -592,7 +588,7 @@ app.post("/mark_sold", (req, res) => {
 
   databaseFn.changeListingSoldStatus(listingId, true)
   .then(result => {
-    console.log(`listing has been successfully removed`);
+    console.log(`listing has been successfully marked as sold`);
     document.reload();
   })
   .catch(e => {

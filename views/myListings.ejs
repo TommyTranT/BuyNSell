@@ -60,8 +60,15 @@
               <button class="delete-button" >Delete</button>
               <div style="display: none" class="listing-key"><%= listings[listingKeys].id %></div>
 
+              <% if (!listings[listingKeys].is_sold) { %>
               <button class="mark-sold">Mark Sold</button>
               <div style="display: none" class="listing-key"><%= listings[listingKeys].id %></div>
+              <% } %>
+
+              <% if (listings[listingKeys].is_sold) { %>
+                <button style="color: red" class="mark-unsold">SOLD!</button>
+                <div style="display: none" class="listing-key"><%= listings[listingKeys].id %></div>
+              <% } %>
 
             </div>
           </footer>
