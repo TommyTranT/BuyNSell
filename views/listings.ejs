@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Home Page</title>
+  <title>My Listings</title>
 
   <meta charset="UTF-8" >
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
   <!-- External JS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
   <!-- App CSS -->
   <link rel="stylesheet" href="/styles/main.css" />
   <link rel="stylesheet" href="/styles/layout.css" />
@@ -56,9 +57,9 @@
               <form action = "/edit/<%= listings[listingKeys].id %>" method="GET">
                 <button type="submit">Edit</button>
               </form>
-              <button class="delete-button" type="submit">Delete</button>
-
+              <button class="delete-button" >Delete</button>
               <div style="display: none" class="listing-key"><%= listings[listingKeys].id %></div>
+
               <button>Mark Sold</button>
             </div>
           </footer>

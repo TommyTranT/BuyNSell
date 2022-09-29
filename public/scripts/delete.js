@@ -10,13 +10,21 @@ $(document).ready(function() {
 
     console.log('DELETE THIS KEY', listingKey)
 
-    // import function from index.js
-    // databaseFn.addFavorite({user_id, listing_id})
-    // const listingKeys = {user_id, listing_id};
 
-    $.post('/listings/delete', {listingKey}, (response) => {
-      console.log("AJAX post went through");
-    })
+    // $.post('/listings/delete', {listingKey}, (response) => {
+    //   console.log("AJAX post went through");
+    // })
+
+    $.ajax('/listings/delete', {
+      type: 'POST',
+      data: { listingKey },
+      success: function (res) {
+          console.log('ajax successful!')
+      },
+      error: function (err) {
+          console.log(err);
+      }
+  });
 
   });
 });// END of Doc Ready
