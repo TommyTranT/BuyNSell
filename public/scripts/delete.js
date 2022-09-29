@@ -1,9 +1,9 @@
 $(document).ready(function() {
 
   $(".delete-button").click(function(){
-    alert("You've clicked my heart");
     console.log("ITS WORKINGS")
 
+    // Returns listing id value
     const listingKey = $(this).next()[0].innerHTML;
 
 
@@ -15,16 +15,22 @@ $(document).ready(function() {
     //   console.log("AJAX post went through");
     // })
 
-    $.ajax('/listings/delete', {
-      type: 'POST',
-      data: { listingKey },
-      success: function (res) {
-          console.log('ajax successful!')
-      },
-      error: function (err) {
-          console.log(err);
-      }
-  });
+    $.post('/delete', {listingKey}, (response) => {
+      console.log("AJAX post went through");
+    })
+
+  //   $.ajax('/delete', {
+  //     type: 'POST',
+  //     data: { listingKey },
+  //     success: function (res) {
+  //         console.log('ajax successful!')
+  //     },
+  //     error: function (err) {
+  //         console.log(err);
+  //     }
+  // });
+
+
 
   });
 });// END of Doc Ready
