@@ -301,10 +301,7 @@ app.get('/myListings', (req, res) => {
         }
 
       }
-<<<<<<< HEAD
-=======
       console.log(`formatted return listings for ejs view:`, templateVars.listings);
->>>>>>> feature/send-message
       return res.render('myListings', templateVars);
     })
     .catch(e => {
