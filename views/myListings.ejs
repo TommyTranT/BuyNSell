@@ -35,7 +35,7 @@
         <div class="single-container">
           <header>
             <div><%= listings[listingKeys].name %></div>
-            <div>DATE POSTED</div>
+            <div>posted <%= String(listings[listingKeys].time_created).slice(4, 15) %></div>
           </header>
           <div class="container-lower">
             <div id="image">IMAGE</div>

@@ -296,7 +296,8 @@ app.get('/myListings', (req, res) => {
           owner_id: listing.owner_id,
           owner_name: listing.owner_name,
           is_removed: listing.is_removed,
-          id: listing.id
+          id: listing.id,
+          time_created: listing.time_created
         }
 
       }

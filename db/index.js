@@ -153,7 +153,7 @@ const getListingsByOwnerId = function(id) {
   console.log(`called getListingsByOwnerId`);
   return pool
     .query(`
-      SELECT listings.id, title AS name, description, price, is_sold, is_removed, owner_id, users.name AS owner_name
+      SELECT listings.id, title AS name, description, price, is_sold, is_removed, owner_id, users.name AS owner_name, time_created
       FROM listings
       JOIN users ON owner_id = users.id
       WHERE owner_id = $1 AND is_removed = false;
