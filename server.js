@@ -340,6 +340,7 @@ app.get('/listings/:id', (req, res) => {
         templateVars.listing_id = listing.listing_id;
         templateVars.owner_name = listing.owner_name;
         templateVars.owner_id = listing.owner_id;
+        templateVars.time_created = listing.time_created;
       // end of route logic
 
       return res.render('single_listing', templateVars);

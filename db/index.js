@@ -124,7 +124,7 @@ const getListingWithId = function(id) {
   console.log(`called getListingWithId`);
   return pool
     .query(`
-      SELECT listings.*, listings.id as listing_id, users.name as owner_name, users.id as owner_id
+      SELECT listings.*, listings.id as listing_id, users.name as owner_name, users.id as owner_id, time_created
       FROM listings
       JOIN users ON owner_id = users.id
       WHERE listings.id = $1;
