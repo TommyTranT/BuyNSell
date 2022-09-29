@@ -41,7 +41,7 @@
           <header>
             <div><%= message.sender_name %></div>
             <div>Listing: <%= message.listing_title %></div>
-            <div>DATE SENT</div>
+            <div><%= String(message.time_sent).slice(0, 21) %></div>
           </header>
           <div class="container-lower">
             <div class="avatar"><%= message.sender_name[0] %></div>
