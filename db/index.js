@@ -300,7 +300,7 @@ const getFavoritesByOwnerID = function(id) {
   console.log(`called getFavoritesByOwnerID`);
   return pool
     .query(`
-      SELECT listings.id, title AS name, description, price, is_sold, is_removed, owner_id
+      SELECT listings.id, title AS name, description, price, is_sold, is_removed, owner_id, time_created
       FROM listings
       JOIN favorites ON favorites.listing_id = listings.id
       JOIN users ON favorites.user_id = users.id

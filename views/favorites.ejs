@@ -35,7 +35,7 @@
               <%= listing.description %>
             </article>
             <footer>
-              <div class="item-date">DATE POSTED</div>
+              <div class="item-date">posted <%= String(listing.time_created).slice(4, 15) %></div>
               <% if (listing.is_sold) { %>
                 <div style="color:red">SOLD!</div>
               <% } %>
