@@ -583,7 +583,23 @@ app.post("/delete", (req, res) => {
   })
 });
 
+// Mark listings as SOLD
+app.post("/mark_sold", (req, res) => {
 
+  const {userID} = req.session;
+
+  const listingId = req.body.listingKey;
+
+  databaseFn.changeListingSoldStatus(listingId, true)
+  .then(result => {
+    console.log(`listing has been successfully removed`);
+    document.reload();
+  })
+  .catch(e => {
+    // console.log(e);
+    res.send(e);
+  })
+});
 
 
 
