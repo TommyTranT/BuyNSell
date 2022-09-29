@@ -273,7 +273,7 @@ const getMessages = function(id) {
       WHERE sender_id = $1
       OR recipient_id = $1
       GROUP BY listings.id, users.name, listings.owner_id, messages.contents, messages.id
-      ORDER BY messages.id;
+      ORDER BY messages.id
       `, [id]
     )
     .then((result) => {
