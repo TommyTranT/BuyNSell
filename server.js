@@ -568,7 +568,10 @@ app.post('/listings/:ownerID/:listingsID', (req, res) => {
 
 
 // Delete listing
-app.post("/listings/delete", (req, res) => {
+app.post("/delete", (req, res) => {
+
+  const {userID} = req.session;
+
   const listingId = req.body.listingKey;
 
   databaseFn.changeListingRemovalStatus(listingId, true)
@@ -582,6 +585,9 @@ app.post("/listings/delete", (req, res) => {
 
   }
 );
+
+
+
 
 
 app.listen(PORT, () => {
