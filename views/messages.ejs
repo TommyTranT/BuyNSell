@@ -36,25 +36,9 @@
           <div>LAST MESSAGE DATE? (STRETCH)</div>
         </div>
         <div class="thread-container message-thread">
-<<<<<<< HEAD
-        <% for (message of thread) { %>
-        <div class="single-container">
-          <header>
-            <div><%= message.sender_name %></div>
-            <div>Listing: <%= message.listing_title %></div>
-            <div><%= String(message.time_sent).slice(0, 21) %></div>
-          </header>
-          <div class="container-lower">
-            <div class="avatar"><%= message.sender_name[0] %></div>
-            <article>
-              <%= message.contents %>
-            </article>
-            <div></div>
-=======
           <div class="reply-form">
             <textarea placeholder="Reply to <%= thread[0].sender_name %>"></textarea>
             <button class="reply-button" type="submit">Reply</button>
->>>>>>> feature/send-message
           </div>
         <div class="hidden-values"><%= [thread[0].owner_id, thread[0].listing_id, thread[0].listing_title, user.name ] %> </div>
         <div class="messages-container">
