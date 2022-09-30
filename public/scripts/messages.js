@@ -39,7 +39,7 @@ $(document).ready(function() {
     const threadContainer = $(this).parent().next().next();
     const textarea = $(this).prev();
     const messageContents = $(this).prev().val();
-    const owner_id = hiddenValuesArray[0];
+    const sender_id = hiddenValuesArray[0];
     const listing_id = hiddenValuesArray[1];
     const listing_title = hiddenValuesArray[2];
     const sender_name = hiddenValuesArray[3];
@@ -52,7 +52,7 @@ $(document).ready(function() {
     //clear field
     $(textarea).val('');
 
-    $.post(`/listings/${owner_id}/${listing_id}`, messageContents, (response) => {
+    $.post(`/listings/${sender_id}/${listing_id}`, messageContents, (response) => {
     })
 
   });

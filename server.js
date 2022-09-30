@@ -556,6 +556,7 @@ app.post('/listings/:ownerID/:listingsID', (req, res) => {
     contents: Object.keys(req.body)[0],
     listing_id: listingID
   }
+  console.log(message);
 
   if (userID) {
     databaseFn.addMessage(message)
