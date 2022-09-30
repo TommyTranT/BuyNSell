@@ -304,7 +304,8 @@ app.get('/myListings', (req, res) => {
           owner_id: listing.owner_id,
           owner_name: listing.owner_name,
           is_removed: listing.is_removed,
-          id: listing.id
+          id: listing.id,
+          time_created: listing.time_created
         }
 
       }
@@ -370,6 +371,7 @@ app.get('/listings/:id', (req, res) => {
       templateVars.listing_id = listing.listing_id;
       templateVars.owner_name = listing.owner_name;
       templateVars.owner_id = listing.owner_id;
+      templateVars.time_created = listing.time_created;
     // end of route logic
     return res.render('single_listing', templateVars);
     });
@@ -532,7 +534,7 @@ app.post('/edit/:id', (req, res) => {
   databaseFn.updateListing({id, title: newTitle, description: newDescription, price: newPrice})
   .then(result => {
     console.log(`listing updated! redirecting to listings...`);
-    res.redirect(`/listings`);
+    res.redirect(`/myListings`);
   })
   .catch(e => {
     console.log(e);
@@ -572,20 +574,23 @@ app.post('/listings/:ownerID/:listingsID', (req, res) => {
 
 
 // Delete listing
-app.post("/listings/delete", (req, res) => {
+app.post("/delete", (req, res) => {
+
+  const {userID} = req.session;
+
   const listingId = req.body.listingKey;
 
   databaseFn.changeListingRemovalStatus(listingId, true)
   .then(result => {
     console.log(`listing has been successfully removed`);
+    document.reload();
   })
   .catch(e => {
-    console.log(e);
+    // console.log(e);
     res.send(e);
   })
+});
 
-  }
-);
 
 // Mark listings as SOLD
 app.post("/mark_sold", (req, res) => {
