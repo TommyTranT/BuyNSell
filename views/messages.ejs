@@ -10,7 +10,7 @@
   <!-- External CSS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
   <!-- App CSS -->
   <link rel="stylesheet" href="/styles/main.css" />
@@ -33,7 +33,7 @@
         <div class="thread-dropdown">
           <div><%= thread[0].sender_name %></div>
           <div>Listing: <%= thread[0].listing_title %></div>
-          <div>LAST MESSAGE DATE? (STRETCH)</div>
+          <div><%= String(thread[0].time_sent).slice(0, 21) %></div>
         </div>
         <div class="thread-container message-thread">
           <div class="reply-form">

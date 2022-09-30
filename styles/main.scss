@@ -1,7 +1,8 @@
-$background-color: rgb(233, 233, 233);
-$primary-color: rgb(0, 30, 58);
-$accent-color: rgb(209, 209, 209);
+$background-color: rgb(255, 252, 235);
+$primary-color: rgb(37, 37, 37);
+$accent-color: rgb(211, 211, 211);
 $default-font: 'Roboto Condensed', sans-serif;
+$header-font: 'Bangers', 'cursive';
 $text-color: black;
 
 @mixin reset {
@@ -43,15 +44,20 @@ $text-color: black;
   border-radius: 4em;
 }
 
-@mixin page-header {
-  @include reset;
-
-  font-size: 3em;
-  padding: .75em 1em;
-  width: fit-content;
+@mixin box-card {
   background-color: $accent-color;
   box-shadow: 3px 3px 2px rgb(71, 71, 71);
   border-radius: 2px;
+}
+
+@mixin page-header {
+  @include reset;
+  @include box-card;
+
+  font-size: 3em;
+  font-family: 'Bangers', 'cursive';
+  padding: .75em 1em;
+  width: fit-content;
 }
 
 body {

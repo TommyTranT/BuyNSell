@@ -7,7 +7,6 @@
 }
 
 nav {
-
   @include main.button-styling;
   display: flex;
   height: 100px;
@@ -20,6 +19,7 @@ nav {
 
   .logo {
     font-size: 2.5em;
+    font-family: main.$header-font;
   }
 
   .links {

@@ -10,7 +10,7 @@
   <!-- External CSS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
   <!-- App CSS -->
   <link rel="stylesheet" href="/styles/main.css" />
@@ -28,16 +28,16 @@
     <% if (user) { %>
       <h4>Welcome back, <%= user.name %>!</h4>
       <% } else { %>
-      <h4>Welcome to BUYnSELL!</h4>
+      <h4>Welcome to CARDS 4 SALE!</h4>
       <% } %>
   </header>
   <main>
-    <h4>FEATURED CONTENT</h4>
+    <h3>FEATURED CONTENT</h3>
     <!-- start of filter  -->
     <form id="price-filter" action="/filtered" method="post">
       <input name="minPrice" maxLength="7" type="text" placeholder="min. price" id="filter-min-price"></input>
       <input name="maxPrice" maxLength="7" type="text" placeholder="max. price" id="filter-max-price"></input>
-      <button id="filter-submit">filter listings</button>
+      <button id="filter-submit">Filter by Price</button>
     </form>
     <!-- end of filter dropdown -->
 
@@ -47,7 +47,7 @@
         <a href="/listings/<%= listing.id %>">
           <div class="item-listing">
             <header><%= listing.name %></header>
-            <div class="item-photo">IMAGE</div>
+            <div class="item-photo">IMAGE NOT FOUND</div>
             <article>
               <%= listing.description %>
             </article>

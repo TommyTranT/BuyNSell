@@ -10,7 +10,7 @@
   <!-- External CSS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
   <!-- External JS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -38,17 +38,13 @@
             <div>posted <%= String(listings[listingKeys].time_created).slice(4, 15) %></div>
           </header>
           <div class="container-lower">
-            <div id="image">IMAGE</div>
             <article>
               <%= listings[listingKeys].description %>
             </article>
-            <div id="item-price">
-              <div>$<%= listings[listingKeys].price %></div>
-            </div>
           </div>
           <footer>
-            <div class="status-flags">
-              <div id="is-sold">SOLD!</div>
+            <div id="item-price">
+              <div>$<%= listings[listingKeys].price %></div>
             </div>
             <div>
               <form action = "/listings/<%= listings[listingKeys].id %>" method="GET">

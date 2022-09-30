@@ -10,7 +10,7 @@
   <!-- External CSS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto+Condensed:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/fontawesome.min.css" integrity="sha512-RvQxwf+3zJuNwl4e0sZjQeX7kUa3o82bDETpgVCH2RiwYSZVDdFJ7N/woNigN/ldyOOoKw8584jM4plQdt8bhA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -35,33 +35,36 @@
     <div id="user_id"><%= user.id %></div>
     <% } %>
     <div class="listing-container">
+
       <div class="item-container">
-        <div class="item-listing">
-          <header><%= title %></header>
-          <div class="item-photo">IMAGE HERE</div>
-          <article>
-            <%= description %>
-          </article>
+          <div class="item-listing">
+            <header><%= title %></header>
+            <div class="item-photo">IMAGE NOT FOUND</div>
+            <article>
+              <%= description %>
+            </article>
+          </div>
+
           <footer>
             <div class="item-date">posted <%= String(time_created).slice(4, 15) %></div>
             <div class="item-price">$<%= price %></div>
           </footer>
           <div class="favorites">
             <div><b>Add to Favorites</b></div>
-            <form action="/"  <i class="fa-solid fa-heart add-favorite"></i>
+            <form action="/"  <i class="fa-solid fa-heart add-favorite" style="color: rgb(194, 0, 0)"></i>
           </div>
           <div id="favorite-added">Added to favorites!</div>
         </div>
-      </div>
-      <div class="item-container">
-        <div class="contact-seller-container">
-          <div class="avatar"><%= owner_name[0] %></div>
-          <header><%= owner_name %></header>
-          <button id="message-dropdown">
-            Contact Seller
-          </button>
-        </div>
-        <div class="contact-seller-container" id="write-message">
+
+        <div class="item-container">
+          <div class="contact-seller-container">
+            <div class="avatar"><%= owner_name[0] %></div>
+            <header><%= owner_name %></header>
+            <button id="message-dropdown">
+              Contact Seller
+            </button>
+          </div>
+          <div class="contact-seller-container" id="write-message">
             <textarea
             placeholder="your message here"
             ></textarea>
@@ -69,8 +72,9 @@
             <div class="hidden-values"><%= owner_id %><%= listing_id %></div>
           </div>
           <div id="message-sent">Message sent!</div>
-      </div>
+        </div>
 
+      </div>
     </div>
   </main>
 </body>

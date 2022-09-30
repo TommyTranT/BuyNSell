@@ -5,25 +5,28 @@
   padding: .5em;
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  margin: .25em 0;
-  font-size: 1.2em;
-}
+main {
 
-.single-container {
-  border: solid;
-  padding: .35em;
-  margin-bottom: .5em;
-  font-size: .85em;
-
-  .container-lower {
+  header {
     display: flex;
-    justify-content: flex-start
+    justify-content: space-between;
+    margin: .25em 0;
+    font-size: 1.2em;
   }
 
-  .avatar {
+  .single-container {
+    @include main.box-card;
+    padding: .5em;
+    margin-bottom: .5em;
+    font-size: .85em;
+    background-color: white;
+
+    .container-lower {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .avatar {
     font-size: 1.5em;
   }
 
@@ -31,12 +34,10 @@ header {
     padding: .5em;
     font-size: .8em;
     word-wrap: break-word;
-    width: 60%;
+    width: 80%;
   }
 
   #item-price {
-    display: flex;
-    align-items: center;
     font-size: 2em;
   }
 
@@ -65,5 +66,7 @@ header {
     }
 
   }
+
+}
 
 }
