@@ -7,10 +7,10 @@ $(document).ready(function() {
       <header>
         <div>${sender_name}</div>
         <div>Listing: ${listing_title}</div>
-        <div>DATE SENT</div>
+        <div>just now</div>
       </header>
       <div class="container-lower">
-        <div id="image">AVATAR</div>
+        <div class="avatar">${sender_name[0]}</div>
         <article>
           ${message}
         </article>
@@ -39,10 +39,11 @@ $(document).ready(function() {
     const threadContainer = $(this).parent().next().next();
     const textarea = $(this).prev();
     const messageContents = $(this).prev().val();
-    const owner_id = hiddenValuesArray[0];
+    const sender_id = hiddenValuesArray[0];
     const listing_id = hiddenValuesArray[1];
     const listing_title = hiddenValuesArray[2];
     const sender_name = hiddenValuesArray[3];
+    const timeStamp = hiddenValuesArray[4];
 
     //new reply at top
     const $newPost = postReply(sender_name, listing_title, messageContents);
@@ -51,7 +52,7 @@ $(document).ready(function() {
     //clear field
     $(textarea).val('');
 
-    $.post(`/listings/${owner_id}/${listing_id}`, messageContents, (response) => {
+    $.post(`/listings/${sender_id}/${listing_id}`, messageContents, (response) => {
     })
 
   });

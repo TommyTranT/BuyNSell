@@ -304,7 +304,8 @@ app.get('/myListings', (req, res) => {
           owner_id: listing.owner_id,
           owner_name: listing.owner_name,
           is_removed: listing.is_removed,
-          id: listing.id
+          id: listing.id,
+          time_created: listing.time_created
         }
 
       }
@@ -349,6 +350,7 @@ app.get('/listings/:id', (req, res) => {
         templateVars.listing_id = listing.listing_id;
         templateVars.owner_name = listing.owner_name;
         templateVars.owner_id = listing.owner_id;
+        templateVars.time_created = listing.time_created;
       // end of route logic
 
       return res.render('single_listing', templateVars);
@@ -369,6 +371,7 @@ app.get('/listings/:id', (req, res) => {
       templateVars.listing_id = listing.listing_id;
       templateVars.owner_name = listing.owner_name;
       templateVars.owner_id = listing.owner_id;
+      templateVars.time_created = listing.time_created;
     // end of route logic
     return res.render('single_listing', templateVars);
     });
@@ -531,7 +534,7 @@ app.post('/edit/:id', (req, res) => {
   databaseFn.updateListing({id, title: newTitle, description: newDescription, price: newPrice})
   .then(result => {
     console.log(`listing updated! redirecting to listings...`);
-    res.redirect(`/listings`);
+    res.redirect(`/myListings`);
   })
   .catch(e => {
     console.log(e);
@@ -553,6 +556,7 @@ app.post('/listings/:ownerID/:listingsID', (req, res) => {
     contents: Object.keys(req.body)[0],
     listing_id: listingID
   }
+  console.log(message);
 
   if (userID) {
     databaseFn.addMessage(message)
@@ -571,21 +575,90 @@ app.post('/listings/:ownerID/:listingsID', (req, res) => {
 
 
 // Delete listing
-app.post("/listings/delete", (req, res) => {
+app.post("/delete", (req, res) => {
+
+  const {userID} = req.session;
+
   const listingId = req.body.listingKey;
 
   databaseFn.changeListingRemovalStatus(listingId, true)
   .then(result => {
     console.log(`listing has been successfully removed`);
+    document.reload();
   })
   .catch(e => {
-    console.log(e);
+    // console.log(e);
     res.send(e);
   })
+});
 
+
+// Mark listings as SOLD
+app.post("/mark_sold", (req, res) => {
+
+  const {userID} = req.session;
+
+  const listingId = req.body.listingKey;
+
+  databaseFn.changeListingSoldStatus(listingId, true)
+  .then(result => {
+    console.log(`listing has been successfully marked as sold`);
+    document.reload();
+  })
+  .catch(e => {
+    // console.log(e);
+    res.send(e);
+  })
+});
+
+
+app.post('/filtered', (req, res) => {
+  const minPrice = req.body.minPrice;
+  const maxPrice = req.body.maxPrice;
+
+  res.redirect(`/filtered/${minPrice}/${maxPrice}`)
+})
+
+app.get('/filtered/:min/:max', (req, res) => {
+  const {userID} = req.session;
+  const templateVars = {user: undefined};
+  if (userID) {
+    return databaseFn.getUserWithId(userID)
+    .then(dbUser => {
+      templateVars.user = dbUser;
+
+      console.log(`req.params are:`, req.params);
+      const filters = {minPrice: req.params.min, maxPrice: req.params.max};
+      console.log(`filters are:`, filters);
+
+      databaseFn.getFilteredListings(8, filters)
+        .then(listings => {
+          templateVars.listings = listings;
+          console.log(`filtered listings from fn:`, listings);
+          return res.render('index', templateVars);
+        })
+      // route logic here
+
+    })
+    .catch(e => {
+      console.log(e);
+      res.send(e);
+    })
   }
-);
+  /* end of required block */
 
+  // if user isn't logged in, do the same
+  // needs to be repeated because above logic only happens in async callback
+  databaseFn.getFilteredListings(8, filters)
+        .then(listings => {
+          templateVars.listings = listings;
+          return res.render('index', templateVars);
+        })
+        .catch(e => {
+          console.log(e);
+          res.send(e);
+        })
+})
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
