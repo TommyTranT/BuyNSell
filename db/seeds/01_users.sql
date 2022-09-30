@@ -10,3 +10,7 @@ INSERT INTO users (name, email, password)
 VALUES ('Nicholas', 'nick@admin.com', '$2a$12$k1ab4ZddC1yxqreTNARPpemmNkI6MRXIEITn8mG96ZZrr.oyeU5em');
 INSERT INTO users (name, email, password)
 VALUES ('Michael', 'mike@admin.com', '$2a$12$k1ab4ZddC1yxqreTNARPpemmNkI6MRXIEITn8mG96ZZrr.oyeU5em');
+INSERT INTO users (name, email, password)
+VALUES ('Francis', 'francis@admin.com', '$2a$12$k1ab4ZddC1yxqreTNARPpemmNkI6MRXIEITn8mG96ZZrr.oyeU5em');
+INSERT INTO users (name, email, password)
+VALUES ('Bob', 'bob@admin.com', '$2a$12$k1ab4ZddC1yxqreTNARPpemmNkI6MRXIEITn8mG96ZZrr.oyeU5em');
