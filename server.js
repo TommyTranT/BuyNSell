@@ -89,7 +89,7 @@ app.get('/', (req, res) => {
       templateVars.user = dbUser;
       console.log('logged in successfully as: ', dbUser.name)
 
-      databaseFn.getLimitListings(8)
+      databaseFn.getLimitListings(50)
         .then(listings => {
           templateVars.listings = listings;
           console.log(`listings from fn:`, listings);
