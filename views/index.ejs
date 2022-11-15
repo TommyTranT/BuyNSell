@@ -47,7 +47,7 @@
         <a href="/listings/<%= listing.id %>">
           <div class="item-listing">
             <header><%= listing.name %></header>
-            <div class="item-photo">IMAGE NOT FOUND</div>
+            <img src=<%= listing.image_url %> class="item-photo" />
             <article>
               <%= listing.description %>
             </article>
