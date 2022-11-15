@@ -22,6 +22,8 @@
   }
 
 .item-listing {
+  display: flex;
+  flex-direction: column;
   padding: .5em .75em;
   background-color: rgb(255, 239, 149);
   background-image: url("https://www.transparenttextures.com/patterns/clean-gray-paper.png");
@@ -35,10 +37,9 @@
   height: 350px;
 
   .item-photo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50%;
+    height: 200px;
+    width: 200px;
+    margin: 0 auto;
     border: solid;
     border-color: rgba(255, 192, 19, 0.507);
     border-width: 6px;

@@ -107,10 +107,9 @@ app.get('/', (req, res) => {
 
   // if user isn't logged in, do the same
   // needs to be repeated because above logic only happens in async callback
-  databaseFn.getLimitListings(8)
+  databaseFn.getLimitListings(15)
         .then(listings => {
           templateVars.listings = listings;
-          console.log(`listings from fn:`, listings);
           return res.render('index', templateVars);
         })
         .catch(e => {

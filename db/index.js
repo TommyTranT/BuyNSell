@@ -209,7 +209,7 @@ const getLimitListings = function(limit) {
   console.log(`called getLimitListings`);
   return pool
     .query(`
-      SELECT listings.id, title AS name, description, price, is_sold, is_removed, owner_id, users.name AS owner_name, time_created
+      SELECT listings.id, title AS name, description, price, image_url, is_sold, is_removed, owner_id, users.name AS owner_name, time_created
       FROM listings
       JOIN users ON owner_id = users.id
       WHERE is_removed = false
@@ -237,7 +237,6 @@ exports.getLimitListings = getLimitListings;
  * @return {Promise<{}>} A promise to the user.
 **/
 const addFavorite = function(favorite) {
-  console.log(`addFavorite fn called...`);
   return pool
     .query(`
       INSERT INTO favorites (user_id, listing_id)
